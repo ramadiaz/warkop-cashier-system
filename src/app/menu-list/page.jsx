@@ -37,6 +37,17 @@ const Page = () => {
     fetchData();
   };
 
+  const handleDeleteMenu = async (id) => {
+    const response = await fetch("/api/v1/deleteMenu", {
+      method: "DELETE",
+      body: id
+    })
+
+    if(response.ok){
+      fetchData()
+    }
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -99,6 +110,7 @@ const Page = () => {
                 <tr className="">
                   <th className="w-3/4 px-4 py-5">Nama menu</th>
                   <th className="w-1/4 px-4 py-5">Harga</th>
+                  <th className="w-1/4 px-4 py-5">Delete</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200/20">
@@ -107,6 +119,14 @@ const Page = () => {
                     <tr key={index} className="even:bg-slate-700/50">
                       <th className="w-3/4 px-4 py-3 font-normal">{menuItem.name}</th>
                       <td className="w-1/4 px-4 py-3">Rp. {menuItem.price.toLocaleString()},-</td>
+                      <td className="w-1/4 px-4 py-3">
+                      <button
+                        className="px-4 py-2 bg-red-600 rounded-md uppercase font-bold text-sm"
+                        onClick={() => handleDeleteMenu(menuItem.id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
                     </tr>
                   );
                 })}
