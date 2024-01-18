@@ -10,3 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
  
+model menu {
+  id        Int @id @default(autoincrement()) 
+  name      String
+  price     String
+
+  @@unique([name, price])
+}
