@@ -24,7 +24,7 @@ const Page = () => {
   const handleAddMenu = async (event) => {
     event.preventDefault();
 
-    const data = { name, price };
+    const data = { name, price: parseInt(price, 10) };
 
     const response = await fetch("/api/v1/addMenu", {
       method: "POST",
@@ -61,7 +61,7 @@ const Page = () => {
                 className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="nama-menu"
                 type="text"
-                placeholder="Indomie"
+                placeholder="Ex: Indomie"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />
@@ -77,7 +77,7 @@ const Page = () => {
                 className="remove-arrow appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="harga-menu"
                 type="number"
-                placeholder="9000"
+                placeholder="Ex: 9000"
                 value={price}
                 onChange={(event) => setPrice(event.target.value)}
               />
@@ -106,7 +106,7 @@ const Page = () => {
                   return (
                     <tr key={index} className="even:bg-slate-700/50">
                       <th className="w-3/4 px-4 py-3 font-normal">{menuItem.name}</th>
-                      <td className="w-1/4 px-4 py-3">{menuItem.price}</td>
+                      <td className="w-1/4 px-4 py-3">Rp. {menuItem.price.toLocaleString()},-</td>
                     </tr>
                   );
                 })}

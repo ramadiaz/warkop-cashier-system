@@ -13,7 +13,7 @@ datasource db {
 model menu {
   id        Int @id @default(autoincrement()) 
   name      String
-  price     String
+  price     Int
 
   @@unique([name, price])
 }
