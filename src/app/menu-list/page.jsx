@@ -4,8 +4,8 @@ import Header from "@/component/Utilities/Header";
 import { useEffect, useState } from "react";
 
 const Page = () => {
-  const [name, setName] = useState();
-  const [price, setPrice] = useState();
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
   const [menuItems, setMenuItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,29 +24,36 @@ const Page = () => {
   const handleAddMenu = async (event) => {
     event.preventDefault();
 
-    const data = { name, price: parseInt(price, 10) };
+    if (!name || !price) {
+      alert("Please fill in all required fields");
+      return;
+    } else {
+      const data = { name, price: parseInt(price, 10) };
 
-    const response = await fetch("/api/v1/addMenu", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+      const response = await fetch("/api/v1/addMenu", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
 
-    setName('')
-    setPrice('')
+      setName("");
+      setPrice("");
 
-    fetchData();
+      if (response.ok) {
+        fetchData();
+      }
+    }
   };
 
   const handleDeleteMenu = async (id) => {
     const response = await fetch("/api/v1/deleteMenu", {
       method: "DELETE",
-      body: id
-    })
+      body: id,
+    });
 
-    if(response.ok){
-      fetchData()
+    if (response.ok) {
+      fetchData();
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -117,16 +124,20 @@ const Page = () => {
                 {menuItems.body?.map((menuItem, index) => {
                   return (
                     <tr key={index} className="even:bg-slate-700/50">
-                      <th className="w-3/4 px-4 py-3 font-normal">{menuItem.name}</th>
-                      <td className="w-1/4 px-4 py-3">Rp. {menuItem.price.toLocaleString()},-</td>
+                      <th className="w-3/4 px-4 py-3 font-normal">
+                        {menuItem.name}
+                      </th>
                       <td className="w-1/4 px-4 py-3">
-                      <button
-                        className="px-4 py-2 bg-red-600 rounded-md uppercase font-bold text-sm"
-                        onClick={() => handleDeleteMenu(menuItem.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
+                        Rp. {menuItem.price.toLocaleString()},-
+                      </td>
+                      <td className="w-1/4 px-4 py-3">
+                        <button
+                          className="px-4 py-2 bg-red-600 rounded-md uppercase font-bold text-sm"
+                          onClick={() => handleDeleteMenu(menuItem.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   );
                 })}
