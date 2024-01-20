@@ -1,9 +1,9 @@
 import prisma from "@/app/libs/prisma";
 
 export async function POST(request) {
-  const { name, price } = await request.json();
+  const { name, price, type, stock } = await request.json();
 
-  const data = { name, price };
+  const data = { name, type, price, stock};
 
   const createMenu = await prisma.menu.create({ data });
 

@@ -13,14 +13,16 @@ datasource db {
 enum Type {
   Food
   Drink
+  Snack
   Other
 }
 
 model menu {
   id        Int @id @default(autoincrement()) 
   name      String
-  price     Int
   type      Type
+  price     Int
+  stock     Int
 
   @@unique([name, price])
 }
