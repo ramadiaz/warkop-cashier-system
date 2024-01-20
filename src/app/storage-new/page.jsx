@@ -135,7 +135,7 @@ const Page = () => {
         <div className="w-full overflow-x-auto">
             <div
               ref={refreshWidth}
-              className="h-12 flex items-center bg-neutral-800/30"
+              className="h-12 flex items-center bg-neutral-800/30 bg-gradient-to-l from-neutral-900 from-10%"
             >
               <button
                 onClick={fetchData}
