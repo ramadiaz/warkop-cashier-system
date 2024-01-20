@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
           <div className="border-r border-neutral-600/50">
             <Navbar />
           </div>
-          <div className="min-h-screen text-neutral-300">{children}</div>
+          <div className="min-h-screen w-full text-neutral-300">{children}</div>
         </div>
       </body>
     </html>

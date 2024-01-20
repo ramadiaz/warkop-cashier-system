@@ -1,10 +1,7 @@
 import {
   ClipboardText,
-  ForkKnife,
   GearSix,
-  House,
   HouseLine,
-  MagnifyingGlass,
   ShoppingCartSimple,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";

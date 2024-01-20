@@ -59,9 +59,9 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="menu-list pt-14">
-      <h1 className="mx-5 text-3xl">Persediaan</h1>
-      <div className="mx-5 py-14">
+    <div className="mx-6 menu-list pt-14">
+      <h1 className="text-3xl">Persediaan</h1>
+      <div className="py-14">
         <form
           onSubmit={handleAddMenu}
           className="w-full bg-slate-700/90 p-4 rounded-lg"
