@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "@/component/Utilities/Header";
 import { useEffect, useState } from "react";
 
 const Page = () => {
@@ -60,9 +59,9 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="menu-list pt-14">
-      <Header title={`Daftar Menu`} desc={`Menu yang tersedia di Warkop`} />
-      <div className="mx-auto w-11/12 lg:w-2/3 py-14">
+    <div className="mx-6 menu-list pt-14">
+      <h1 className="text-3xl">Persediaan</h1>
+      <div className="py-14">
         <form
           onSubmit={handleAddMenu}
           className="w-full bg-slate-700/90 p-4 rounded-lg"
