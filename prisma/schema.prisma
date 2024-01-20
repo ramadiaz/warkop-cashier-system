@@ -9,11 +9,18 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
- 
+
+enum Type {
+  Food
+  Drink
+  Other
+}
+
 model menu {
   id        Int @id @default(autoincrement()) 
   name      String
   price     Int
+  type      Type
 
   @@unique([name, price])
 }
