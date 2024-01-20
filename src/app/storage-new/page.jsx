@@ -43,14 +43,13 @@ const Page = () => {
         body: JSON.stringify(data),
       });
 
-      setName("");
-      setPrice("");
-      setType()
-      setStock()
-
       if (response.ok) {
         fetchData();
         alert("Add new item success");
+        setName("");
+        setPrice("");
+        setType();
+        setStock();
       } else {
         alert("Add new item failed");
       }
