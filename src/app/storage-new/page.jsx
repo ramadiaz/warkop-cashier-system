@@ -1,8 +1,9 @@
 "use client";
 
 import Header from "@/components/Utilities/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SmallLoading from "@/components/Utilities/SmallLoading";
+import { ArrowsClockwise } from "@phosphor-icons/react/dist/ssr";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -11,6 +12,9 @@ const Page = () => {
   const [stock, setStock] = useState("");
   const [menuItems, setMenuItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const refreshWidth = useRef(null);
+  const tableWidth = useRef(null);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -71,6 +75,12 @@ const Page = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const tableW = tableWidth.current?.offsetWidth;
+
+    refreshWidth.current.style.width = `${tableW}px`;
+  });
+
   return (
     <div className="storage-new overflow-hidden">
       <Header title={`Storage`} />
@@ -122,70 +132,87 @@ const Page = () => {
             </form>
           </div>
         </div>
-        <div className="h-[849px] overflow-y-auto w-full">
-          {isLoading ? (
-            <SmallLoading />
-          ) : (
-            <table className="w-max h-max overflow-y-auto overflow-x-auto text-sm text-neutral-200 text-left border-r border-neutral-600/50">
-              <thead className="bg-neutral-800 sticky top-0">
-                <tr className="divide-x divide-neutral-600/50">
-                  <th
-                    scope="col"
-                    className="font-semibold px-4 py-2 w-16 whitespace-nowrap"
-                  >
-                    no.
-                  </th>
-                  <th
-                    scope="col"
-                    className="font-semibold px-4 py-2 w-96 whitespace-nowrap"
-                  >
-                    item name
-                  </th>
-                  <th
-                    scope="col"
-                    className="font-semibold px-4 py-2 w-20 whitespace-nowrap"
-                  >
-                    type
-                  </th>
-                  <th
-                    scope="col"
-                    className="font-semibold px-4 py-2 w-20 whitespace-nowrap"
-                  >
-                    stock
-                  </th>
-                  <th
-                    scope="col"
-                    className="font-semibold px-4 py-2 w-28 whitespace-nowrap"
-                  >
-                    price
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-600/50">
-                {menuItems.body?.map((menuItem, index) => {
-                  return (
-                    <tr className="divide-x divide-neutral-600/50">
-                      <th className="font-normal px-4 py-2 w-16 whitespace-nowrap">
-                        {index + 1}
-                      </th>
-                      <td className="font-normal px-4 py-2 w-96 whitespace-nowrap">
-                        {menuItem.name}
-                      </td>
-                      <td className="font-normal px-4 py-2 w-20 whitespace-nowrap">
-                        {menuItem.type}
-                      </td>
-                      <td className="font-normal px-4 py-2 w-20 whitespace-nowrap">
-                        {menuItem.stock.toLocaleString()}
-                      </td>
-                      <td className="font-normal px-4 py-1 w-28 whitespace-nowrap">
-                        Rp. {menuItem.price.toLocaleString()}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
+        <div className="w-full overflow-x-auto">
+            <div
+              ref={refreshWidth}
+              className="h-12 flex items-center bg-neutral-800/30"
+            >
+              <button
+                onClick={fetchData}
+                className="ml-2 px-2 py-1 bg-neutral-700/90 rounded-md text-xs flex gap-2"
+              >
+                <ArrowsClockwise size={17} color="#737373" />
+                Refresh
+              </button>
+            </div>
+          <div className="h-[800px] overflow-y-auto w-full">
+            {isLoading ? (
+              <SmallLoading />
+            ) : (
+              <table
+                ref={tableWidth}
+                className="w-max h-max text-sm text-neutral-200 text-left border-r border-neutral-600/50"
+              >
+                <thead className="bg-neutral-800 sticky top-0">
+                  <tr className="divide-x divide-neutral-600/50">
+                    <th
+                      scope="col"
+                      className="font-semibold px-4 py-2 w-16 whitespace-nowrap"
+                    >
+                      no.
+                    </th>
+                    <th
+                      scope="col"
+                      className="font-semibold px-4 py-2 w-96 whitespace-nowrap"
+                    >
+                      item name
+                    </th>
+                    <th
+                      scope="col"
+                      className="font-semibold px-4 py-2 w-20 whitespace-nowrap"
+                    >
+                      type
+                    </th>
+                    <th
+                      scope="col"
+                      className="font-semibold px-4 py-2 w-20 whitespace-nowrap"
+                    >
+                      stock
+                    </th>
+                    <th
+                      scope="col"
+                      className="font-semibold px-4 py-2 w-28 whitespace-nowrap"
+                    >
+                      price
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-600/50">
+                  {menuItems.body?.map((menuItem, index) => {
+                    return (
+                      <tr className="divide-x divide-neutral-600/50">
+                        <th className="font-normal px-4 py-2 w-16 whitespace-nowrap">
+                          {index + 1}
+                        </th>
+                        <td className="font-normal px-4 py-2 w-96 whitespace-nowrap">
+                          {menuItem.name}
+                        </td>
+                        <td className="font-normal px-4 py-2 w-20 whitespace-nowrap">
+                          {menuItem.type}
+                        </td>
+                        <td className="font-normal px-4 py-2 w-20 whitespace-nowrap">
+                          {menuItem.stock.toLocaleString()}
+                        </td>
+                        <td className="font-normal px-4 py-1 w-28 whitespace-nowrap">
+                          Rp. {menuItem.price.toLocaleString()}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       </div>
     </div>
