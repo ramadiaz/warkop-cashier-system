@@ -3,7 +3,7 @@
 import Header from "@/components/Utilities/Header";
 import { useEffect, useRef, useState } from "react";
 import SmallLoading from "@/components/Utilities/SmallLoading";
-import { ArrowsClockwise } from "@phosphor-icons/react/dist/ssr";
+import { ArrowsClockwise, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -12,6 +12,7 @@ const Page = () => {
   const [stock, setStock] = useState("");
   const [menuItems, setMenuItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const refreshWidth = useRef(null);
   const tableWidth = useRef(null);
@@ -27,6 +28,15 @@ const Page = () => {
 
     setIsLoading(false);
   };
+
+  const filteredMenuItems = menuItems.body?.filter((menuItem) => {
+    return (
+      menuItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      menuItem.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      menuItem.stock.toString().includes(searchTerm) ||
+      menuItem.price.toString().includes(searchTerm)
+    );
+  });
 
   const handleAddMenu = async (event) => {
     event.preventDefault();
@@ -133,18 +143,31 @@ const Page = () => {
           </div>
         </div>
         <div className="w-full overflow-x-auto">
-            <div
-              ref={refreshWidth}
-              className="h-12 flex items-center bg-neutral-800/30 bg-gradient-to-l from-neutral-900 from-10%"
+          <div
+            ref={refreshWidth}
+            className="h-12 flex items-center bg-neutral-800/30 bg-gradient-to-l from-neutral-900 from-10% gap-4"
+          >
+            <button
+              onClick={fetchData}
+              className="ml-2 px-2 py-1 bg-neutral-700/90 rounded-md text-xs flex gap-2"
             >
-              <button
-                onClick={fetchData}
-                className="ml-2 px-2 py-1 bg-neutral-700/90 rounded-md text-xs flex gap-2"
-              >
-                <ArrowsClockwise size={17} color="#737373" />
-                Refresh
-              </button>
+              <ArrowsClockwise size={17} color="#737373" />
+              Refresh
+            </button>
+            <div className="relative flex justify-end items-center">
+              <input
+                type="text"
+                placeholder="Search"
+                className="rounded-md px-3 py-1 text-xs w-48 bg-neutral-800/80 placeholder:text-neutral-300/80 border border-neutral-600/50 focus:ring-neutral-600"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+              />
+              <div className="absolute pr-2">
+
+              <MagnifyingGlass size={13} color="#737373"/>
+              </div>
             </div>
+          </div>
           <div className="h-[800px] overflow-y-auto w-full">
             {isLoading ? (
               <SmallLoading />
@@ -188,7 +211,7 @@ const Page = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-600/50">
-                  {menuItems.body?.map((menuItem, index) => {
+                  {filteredMenuItems?.map((menuItem, index) => {
                     return (
                       <tr className="divide-x divide-neutral-600/50">
                         <th className="font-normal px-4 py-2 w-16 whitespace-nowrap">
