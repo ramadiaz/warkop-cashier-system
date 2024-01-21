@@ -3,7 +3,7 @@ import prisma from "@/app/libs/prisma";
 export async function DELETE(request) {
     const menuId = await request.json()
 
-    const deleteMenu = await prisma.menu.delete({
+    const deleteMenu = await prisma.Menu.delete({
         where: {
             id: menuId,
         }

@@ -17,12 +17,32 @@ enum Type {
   Other
 }
 
-model menu {
-  id        Int @id @default(autoincrement()) 
-  name      String
-  type      Type
-  price     Int
-  stock     Int
-
+model Menu {
+  id           Int              @id @default(autoincrement())
+  name         String
+  type         Type
+  price        Int
+  stock        Int
+  transactions TransactionMenu[]
+  
   @@unique([name, price])
+}
+
+model Transaction {
+  id        Int              @id @default(autoincrement())
+  createdAt DateTime         @default(now())
+  menus     TransactionMenu[]
+}
+
+model TransactionMenu {
+  id             Int           @id @default(autoincrement())
+  transactionId Int
+  menuId        Int
+  quantity      Int
+  total         Int
+
+  @@unique([transactionId, menuId])
+  
+  transaction   Transaction   @relation(fields: [transactionId], references: [id])
+  menu          Menu          @relation(fields: [menuId], references: [id])
 }
