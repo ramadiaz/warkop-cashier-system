@@ -3,7 +3,10 @@
 import Header from "@/components/Utilities/Header";
 import { useEffect, useRef, useState } from "react";
 import SmallLoading from "@/components/Utilities/SmallLoading";
-import { ArrowsClockwise, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArrowsClockwise,
+  MagnifyingGlass,
+} from "@phosphor-icons/react/dist/ssr";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -29,14 +32,16 @@ const Page = () => {
     setIsLoading(false);
   };
 
-  const filteredMenuItems = menuItems.body?.filter((menuItem) => {
-    return (
-      menuItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      menuItem.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      menuItem.stock.toString().includes(searchTerm) ||
-      menuItem.price.toString().includes(searchTerm)
-    );
-  });
+  const filteredMenuItems = menuItems.body
+    ?.filter((menuItem) => {
+      return (
+        menuItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        menuItem.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        menuItem.stock.toString().includes(searchTerm) ||
+        menuItem.price.toString().includes(searchTerm)
+      );
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const handleAddMenu = async (event) => {
     event.preventDefault();
@@ -163,8 +168,7 @@ const Page = () => {
                 onChange={(event) => setSearchTerm(event.target.value)}
               />
               <div className="absolute pr-2">
-
-              <MagnifyingGlass size={13} color="#737373"/>
+                <MagnifyingGlass size={13} color="#737373" />
               </div>
             </div>
           </div>
