@@ -3,10 +3,34 @@ import prisma from "@/app/libs/prisma";
 export async function POST(request) {
   const { menuId, quantity, total } = await request.json();
 
-  const data = { menuId, quantity, total };
+  const menuUpdate = await prisma.Menu.update({
+    where: { id: menuId },
+    data: {
+      stock: {
+        decrement: quantity,
+      },
+    },
+  });
 
-  const pushTransaction = await prisma.Transaction.create({ data });
+  if (!menuUpdate) {
+    return Response.json({ status: 500, isCreated: false });
+  }
 
-  if (!pushTransaction) return Response.json({ status: 500, isCreated: false });
-  else return Response.json({ status: 200, isCreated: true });
+  const transaction = await prisma.Transaction.create({
+    data: { menuId, quantity, total },
+  });
+
+  if (!transaction) {
+    await prisma.Menu.update({
+      where: { id: menuId },
+      data: {
+        stock: {
+          increment: quantity,
+        },
+      },
+    });
+    return Response.json({ status: 500, isCreated: false });
+  }
+
+  return Response.json({ status: 200, isCreated: true });
 }
