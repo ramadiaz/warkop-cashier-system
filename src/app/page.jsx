@@ -15,7 +15,7 @@ const Page = () => {
                 <h2 className="text-2xl text-center font-semibold mb-6 mt-10 pt-10">Please Select The Panel Below</h2>
                 {/* Button Section Start */}
                 <div className="grid grid-cols-2 gap-8 px-4">
-                    <Link href={`/persediaan`} type="button" className="relative group bg-neutral-700/40 p-4
+                    <Link href={`/persediaan`} type="button" className="cursor-none relative group bg-neutral-700/40 p-4
                       before:absolute 
                       before:inset-0 
                       before:bg-neutral-700
@@ -31,7 +31,7 @@ const Page = () => {
                             <h2 className="">Cek Menu Yang Masih Tersedia Untuk Kita Jual</h2>
                         </div></span>
                     </Link>
-                    <Link href={`/pembelian`} type="button" className="relative group bg-neutral-700/40 p-4
+                    <Link href={`/pembelian`} type="button" className="cursor-none relative group bg-neutral-700/40 p-4
                       before:absolute 
                       before:inset-0 
                       before:bg-neutral-700
