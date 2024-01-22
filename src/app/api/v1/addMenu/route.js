@@ -5,7 +5,7 @@ export async function POST(request) {
 
   const data = { name, type, price, stock};
 
-  const createMenu = await prisma.menu.create({ data });
+  const createMenu = await prisma.Menu.create({ data });
 
   if (!createMenu) return Response.json({ status: 500, isCreated: false });
   else return Response.json({ status: 200, isCreated: true });

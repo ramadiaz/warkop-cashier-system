@@ -168,13 +168,13 @@ const Page = () => {
               </div>
             </div>
           </div>
-          <div className="h-[800px] overflow-y-auto w-full">
+          <div className="h-[802px] overflow-y-auto w-full">
             {isLoading ? (
               <SmallLoading />
             ) : (
               <table
                 ref={tableWidth}
-                className="w-max h-max text-sm text-neutral-200 text-left border-r border-neutral-600/50"
+                className="w-max h-max text-sm text-neutral-200 text-left border-r border-b border-neutral-600/50"
               >
                 <thead className="bg-neutral-800 sticky top-0">
                   <tr className="divide-x divide-neutral-600/50">

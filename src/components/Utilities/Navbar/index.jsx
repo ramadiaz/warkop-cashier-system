@@ -28,7 +28,7 @@ const Navbar = () => {
       </Link>
       <div className="w-8 border border-neutral-600/70 my-2"></div>
       <Link
-        href={"/storage-new"}
+        href={"/storage"}
         className="p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
       >
         <ClipboardText
