@@ -23,7 +23,7 @@ model Menu {
   type         Type
   price        Int
   stock        Int
-  transactions TransactionMenu[]
+  transactions Transaction[]
   
   @@unique([name, price])
 }
@@ -31,18 +31,9 @@ model Menu {
 model Transaction {
   id        Int              @id @default(autoincrement())
   createdAt DateTime         @default(now())
-  menus     TransactionMenu[]
-}
-
-model TransactionMenu {
-  id             Int           @id @default(autoincrement())
-  transactionId Int
-  menuId        Int
-  quantity      Int
-  total         Int
-
-  @@unique([transactionId, menuId])
+  menuId    Int
+  quantity  Int
+  total     Int
   
-  transaction   Transaction   @relation(fields: [transactionId], references: [id])
-  menu          Menu          @relation(fields: [menuId], references: [id])
+  menu      Menu             @relation(fields: [menuId], references: [id])
 }
