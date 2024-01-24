@@ -22,7 +22,7 @@ const Page = () => {
 
   const fetchData = async () => {
     setIsLoading(true);
-    const response = await fetch("/api/v1/readMenu");
+    const response = await fetch("/api/v1/getMenu");
 
     if (response.ok) {
       const data = await response.json();
@@ -57,7 +57,7 @@ const Page = () => {
         stock: parseInt(stock, 10),
       };
 
-      const response = await fetch("/api/v1/addMenu", {
+      const response = await fetch("/api/v1/pushMenu", {
         method: "POST",
         body: JSON.stringify(data),
       });
