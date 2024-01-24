@@ -17,7 +17,7 @@ const Page = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/v1/readMenu");
+      const response = await fetch("/api/v1/getMenu");
       if (response.ok) {
         const data = await response.json();
         setMenuItems(data);
@@ -85,7 +85,7 @@ const Page = () => {
         quantity: parseInt(transaction.quantity, 10),
         total: parseInt(transaction.total, 10),
       };
-      const response = await fetch("/api/v1/pushTransaction", {
+      const response = await fetch("/api/v1/pushTransactions", {
         method: "POST",
         body: JSON.stringify(data),
       });
@@ -135,7 +135,7 @@ const Page = () => {
                     borderRadius: 0,
                     colors: {
                       ...theme.colors,
-                      primary25: "hotpink",
+                      primary25: "#10b981",
                       primary: "black",
                     },
                   })}
