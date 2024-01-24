@@ -4,12 +4,14 @@ import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import Loading from "../loading";
+import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [tempTransactions, setTempTransactions] = useState([]);
+  const [totalPayment, setTotalPayment] = useState(0)
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
@@ -34,13 +36,15 @@ const Page = () => {
     fetchData();
   }, []);
 
-  const options = menuItems.body?.map(
-    (item) =>
-      ({
-        value: item.id,
-        label: item.name,
-      }) || []
-  );
+  const options = menuItems.body
+    ?.map(
+      (item) =>
+        ({
+          value: item.id,
+          label: item.name,
+        }) || []
+    )
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const handleAddItem = (event) => {
     event.preventDefault();
@@ -66,37 +70,57 @@ const Page = () => {
           total: selectedQuantity * itemPrice,
         },
       ]);
+
+      setTotalPayment(totalPayment + selectedQuantity * itemPrice)
+
+      setSelectedItem("Selece...")
+      setSelectedQuantity(0)
     }
   };
 
   const pushTransactions = () => {
-    tempTransactions.map(async(transaction) => {
+    tempTransactions.map(async (transaction) => {
       const data = {
         menuId: transaction.id,
         quantity: parseInt(transaction.quantity, 10),
-        total: parseInt(transaction.total, 10)
-      }
+        total: parseInt(transaction.total, 10),
+      };
       const response = await fetch("/api/v1/pushTransaction", {
         method: "POST",
         body: JSON.stringify(data),
       });
-    })
+    });
+
+    setTempTransactions([])
+  };
+
+  const plusHandle = (e) => {
+    e.preventDefault()
+
+    setSelectedQuantity(selectedQuantity + 1)
+  }
+  const minusHandle = (e) => {
+    e.preventDefault()
+
+    setSelectedQuantity(selectedQuantity - 1)
   }
 
   return (
     <div className="transaction ">
-      <div className="flex flex-col min-h-screen max-h-screen overflow-y-hidden">
+      <div className="flex flex-col min-h-screen max-h-screen">
         <Header title={`Transaction`} />
         {isLoading ? (
           <Loading />
         ) : (
           <>
-            <div className="flex-grow flex flex-row">
+            <div className="flex flex-row flex-grow">
               <form
                 onSubmit={handleAddItem}
-                className="min-w-60 max-w-60 border-r border-neutral-600/50 flex-grow flex flex-col p-4"
+                className="min-w-60 max-w-60 border-r border-neutral-600/50 flex-grow flex flex-col p-4 gap-2"
               >
-                <h2 className="uppercase text-xs font-semibold">add item</h2>
+                <h2 className="uppercase text-xs font-semibold">
+                  add item
+                </h2>
                 <ReactSelect
                   options={options}
                   className="text-neutral-800"
@@ -106,14 +130,34 @@ const Page = () => {
                   onChange={(selectedOption) =>
                     setSelectedItem(selectedOption?.value)
                   }
+                  theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 0,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "hotpink",
+                      primary: "black",
+                    },
+                  })}
                 />
-                <input
-                  type="number"
-                  placeholder="Quantity"
-                  className="rounded-md px-3 py-1 text-xs w-full bg-neutral-800/80 placeholder:text-neutral-300/80 border border-neutral-600/50 focus:ring-neutral-600"
-                  value={selectedQuantity}
-                  onChange={(event) => setSelectedQuantity(event.target.value)}
-                ></input>
+
+                <div className="flex flex-row gap-2">
+                  <button onClick={plusHandle}>
+                    <Plus size={28} color="#737373" />
+                  </button>
+                  <input
+                    type="number"
+                    placeholder="Quantity"
+                    className="remove-arrow appearance-none rounded-md px-3 py-1 text-xs w-full bg-neutral-800/80 placeholder:text-neutral-300/80 border border-neutral-600/50 focus:ring-neutral-600"
+                    value={selectedQuantity}
+                    onChange={(event) =>
+                      setSelectedQuantity(event.target.value)
+                    }
+                  ></input>
+                  <button onClick={minusHandle}>
+                    <Minus size={28} color="#737373" />
+                  </button>
+                </div>
                 <button
                   type="submit"
                   className="rounded-md py-1 text-white text-xs font-bold uppercase w-full bg-emerald-500/70 hover:bg-emerald-500 border border-lime-300 focus:border-neutral-600 transition-all duration-300"
@@ -121,38 +165,51 @@ const Page = () => {
                   Add new item
                 </button>
               </form>
-              <table className="w-full items-start text-left">
+
+              <table className="text-left w-max h-max text-sm">
                 <thead>
-                  <tr>
+                  <tr className="divide-x divide-neutral-600/50 border-b border-neutral-600/50">
                     <th className="w-80 font-semibold px-4 py-2 whitespace-nowrap">
-                      Name
+                      name
                     </th>
                     <th className="w-20 font-semibold px-4 py-2 whitespace-nowrap">
-                      Quantity
+                      quantity
                     </th>
                     <th className="w-28 font-semibold px-4 py-2 whitespace-nowrap">
-                      Price @item
+                      @price
                     </th>
-                    <th className="w-auto font-semibold px-4 py-2 whitespace-nowrap">
-                      Total
+                    <th className="w-32 font-semibold px-4 py-2 whitespace-nowrap">
+                      total
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="">
                   {tempTransactions?.map((item, index) => {
                     return (
-                      <tr key={index}>
-                        <th>{item.name}</th>
-                        <td>{item.quantity}</td>
-                        <td>{item.price}</td>
-                        <td>{item.total}</td>
+                      <tr
+                        key={index}
+                        className="divide-x divide-neutral-600/50"
+                      >
+                        <td className="px-4 py-2 whitespace-nowrap w-80">
+                          {item.name}
+                        </td>
+                        <td className="px-4 py-2 whitespace-nowrap w-20">
+                          {item.quantity}
+                        </td>
+                        <td className="px-4 py-2 whitespace-nowrap w-28">
+                          {item.price}
+                        </td>
+                        <td className="px-4 py-2 whitespace-nowrap w-32">
+                          {item.total}
+                        </td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
             </div>
-            <div className="total-panel h-14 bg-emerald-500 bg-gradient-to-r from-neutral-900 from-10%">
+            <div className="total-panel fixed bottom-0 w-full h-20 border-t border-neutral-600/80 bg-neutral-900">
+              <h3>Total: {totalPayment}</h3>
               <button onClick={pushTransactions}>Submit to database</button>
             </div>
           </>

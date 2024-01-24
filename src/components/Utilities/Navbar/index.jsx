@@ -1,5 +1,6 @@
 import {
   ClipboardText,
+  ClockCounterClockwise,
   GearSix,
   HouseLine,
   ShoppingCartSimple,
@@ -43,6 +44,16 @@ const Navbar = () => {
         className="p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
       >
         <ShoppingCartSimple
+          size={22}
+          color="#737373"
+          className="group-hover:brightness-200 transition-all duration-300"
+        />
+      </Link>
+      <Link
+        href={"/transactions-history"}
+        className="p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+      >
+        <ClockCounterClockwise
           size={22}
           color="#737373"
           className="group-hover:brightness-200 transition-all duration-300"
