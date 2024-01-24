@@ -1,9 +1,12 @@
+import Header from "@/components/Utilities/Header"
 import { ArrowCircleLeft, CaretCircleDown, CaretCircleLeft } from "@phosphor-icons/react/dist/ssr"
 import Link from "next/link"
 
 const Page = () => {
     return (
-        <div className="container mx-6 py-8">
+        
+        <div className="container mx-6 py-8 storage-new overflow-hidden">
+            <Header title={`Pembelian`} />
             <section className="text-start">
                 <p className=" text-4xl font-bold mb-4 pt-10">WARKOP CAMP</p>
             </section>
