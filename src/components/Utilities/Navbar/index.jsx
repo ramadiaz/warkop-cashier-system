@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ClipboardText,
   ClockCounterClockwise,
@@ -7,8 +9,10 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathName = usePathname();
   return (
     <div className="w-14 flex flex-col items-center">
       <Image
@@ -20,54 +24,95 @@ const Navbar = () => {
       />
       <Link
         href={"/"}
-        className="p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        className={
+          pathName.endsWith("/")
+            ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
+            : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        }
       >
         <HouseLine
           size={22}
           color="#737373"
-          className="group-hover:brightness-200 transition-all duration-300"
+          className={
+            pathName.endsWith("/")
+              ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
+              : "group-hover:brightness-200 transition-all duration-300"
+          }
         />
       </Link>
       <div className="w-8 border border-neutral-600/70 my-2"></div>
+
       <Link
         href={"/storage"}
-        className="p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        className={
+          pathName.endsWith("/storage")
+            ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
+            : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        }
       >
         <ClipboardText
           size={22}
           color="#737373"
-          className="group-hover:brightness-200 transition-all duration-300"
+          className={
+            pathName.endsWith("/storage")
+              ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
+              : "group-hover:brightness-200 transition-all duration-300"
+          }
         />
       </Link>
       <Link
         href={"/transaction"}
-        className="p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        className={
+          pathName.endsWith("/transaction")
+            ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
+            : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        }
       >
         <ShoppingCartSimple
           size={22}
           color="#737373"
-          className="group-hover:brightness-200 transition-all duration-300"
+          className={
+            pathName.endsWith("/transaction")
+              ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
+              : "group-hover:brightness-200 transition-all duration-300"
+          }
         />
       </Link>
       <Link
         href={"/transactions-history"}
-        className="p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        className={
+          pathName.endsWith("/transactions-history")
+            ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
+            : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        }
       >
         <ClockCounterClockwise
           size={22}
           color="#737373"
-          className="group-hover:brightness-200 transition-all duration-300"
+          className={
+            pathName.endsWith("/transactions-history")
+              ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
+              : "group-hover:brightness-200 transition-all duration-300"
+          }
         />
       </Link>
       <div className="w-8 border border-neutral-600/70 my-2"></div>
       <Link
         href={"/settings"}
-        className="p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        className={
+          pathName.endsWith("/settings")
+            ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
+            : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        }
       >
         <GearSix
           size={22}
           color="#737373"
-          className="group-hover:brightness-200 transition-all duration-300"
+          className={
+            pathName.endsWith("/settings")
+              ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
+              : "group-hover:brightness-200 transition-all duration-300"
+          }
         />
       </Link>
     </div>
