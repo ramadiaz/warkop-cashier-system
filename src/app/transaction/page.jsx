@@ -124,7 +124,7 @@ const Page = () => {
                 <ReactSelect
                   options={options}
                   className="text-neutral-800"
-                  value={options.find(
+                  value={options?.find(
                     (option) => option.value === selectedItem
                   )}
                   onChange={(selectedOption) =>
