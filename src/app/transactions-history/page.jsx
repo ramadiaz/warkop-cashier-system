@@ -33,17 +33,17 @@ const Page = () => {
     }, [])
 
   return (
-    <div className="transactions-history h-screen">
+    <div className="transactions-history">
       <Header title={`Transactions History`} />
       {isLoading ? (<Loading/>) : (
-        <div className="h-full ">
-          <table>
-            <thead>
+        <div className="max-h-screen overflow-y-auto pb-16" >
+          <table className="text-sm text-left">
+            <thead className="bg-neutral-800 sticky top-0">
               <tr>
-                <th>Date</th>
-                <th>item</th>
-                <th>quantity</th>
-                <th>total</th>
+                <th className="w-60 px-4 py-2 border-r border-b border-neutral-600/50">date</th>
+                <th className="w-72 px-4 py-2 border-r border-b border-neutral-600/50">item</th>
+                <th className="w-20 px-4 py-2 border-r border-b border-neutral-600/50 text-center">quantity</th>
+                <th className="w-40 px-4 py-2 border-r border-b border-neutral-600/50">total</th>
               </tr>
             </thead>
             <tbody>
@@ -54,10 +54,10 @@ const Page = () => {
 
                 return (
                   <tr>
-                    <td>{transaction.createdAt}</td>
-                    <td>{itemData.name}</td>
-                    <td>{transaction.quantity}</td>
-                    <td>{transaction.total}</td>
+                    <td className="w-60 px-4 py-2 border border-neutral-600/50">{transaction.createdAt}</td>
+                    <td className="w-72 px-4 py-2 border border-neutral-600/50">{itemData.name}</td>
+                    <td className="w-20 px-4 py-2 border border-neutral-600/50 text-center">{transaction.quantity}</td>
+                    <td className="w-40 px-4 py-2 border border-neutral-600/50">Rp. {transaction.total},-</td>
                   </tr>
                 )
               })}
