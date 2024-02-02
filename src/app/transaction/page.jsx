@@ -71,24 +71,35 @@ const Page = () => {
       alert("Please fill in all required fields");
       return;
     } else {
-      const itemName = selectedItemData.name;
-      const itemPrice = selectedItemData.price;
+      if (selectedQuantity > selectedItemData.stock) {
+        alert("Quantity more than stock!");
+      } else {
+        const existingItemIndex = tempTransactions.findIndex(
+          (item) => item.id === selectedItem
+        );
 
-      setTempTransactions([
-        ...tempTransactions,
-        {
-          id: selectedItem,
-          name: itemName,
-          quantity: selectedQuantity,
-          price: itemPrice,
-          total: selectedQuantity * itemPrice,
-        },
-      ]);
+        if (existingItemIndex !== -1) {
+          alert("Menu already added to the transaction");
+        } else {
+          const itemName = selectedItemData.name;
+          const itemPrice = selectedItemData.price;
 
-      setTotalPayment(totalPayment + selectedQuantity * itemPrice);
+          setTempTransactions([
+            ...tempTransactions,
+            {
+              id: selectedItem,
+              name: itemName,
+              quantity: selectedQuantity,
+              price: itemPrice,
+              total: selectedQuantity * itemPrice,
+            },
+          ]);
 
-      setSelectedItem("");
-      setSelectedQuantity(0);
+          setTotalPayment(totalPayment + selectedQuantity * itemPrice);
+
+          setSelectedQuantity(0);
+        }
+      }
     }
   };
 
