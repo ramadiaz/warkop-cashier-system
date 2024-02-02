@@ -172,7 +172,7 @@ const Page = () => {
               </div>
             </div>
           </div>
-          <div className="h-[802px] overflow-y-auto w-full">
+          <div className="h-[802px] w-full">
             {isLoading ? (
               <SmallLoading />
             ) : (

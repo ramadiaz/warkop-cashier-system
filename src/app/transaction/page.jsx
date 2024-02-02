@@ -4,10 +4,11 @@ import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import Loading from "../loading";
-import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
+import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);
+  const [lastInvoiceId, setLastInvoiceId] = useState(0);
   const [selectedItem, setSelectedItem] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [tempTransactions, setTempTransactions] = useState([]);
@@ -18,9 +19,22 @@ const Page = () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/v1/getMenu");
+
+      const response2 = await fetch("/api/v1/getInvoice");
+
       if (response.ok) {
         const data = await response.json();
         setMenuItems(data);
+
+        const lastInvoiceId =
+          data2.body.length > 0 ? data2.body[data2.body.length - 1].id : 0;
+
+        if (lastInvoiceId === data2.body.length) {
+          setLastInvoiceId(0);
+        } else {
+          setLastInvoiceId(lastInvoiceId);
+        }
+
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -73,17 +87,36 @@ const Page = () => {
 
       setTotalPayment(totalPayment + selectedQuantity * itemPrice);
 
-      // setSelectedItem("Select...");
-      // setSelectedQuantity(0);
+      setSelectedItem("");
+      setSelectedQuantity(0);
     }
   };
 
-  const pushTransactions = () => {
+  const handleDelete = (index) => {
+    const updatedTransactions = [...tempTransactions];
+    const deletedItem = updatedTransactions.splice(index, 1)[0];
+    setTempTransactions(updatedTransactions);
+    setTotalPayment(totalPayment - deletedItem.total);
+  };
+
+  const pushTransactions = async () => {
+    const invoiceData = {
+      total: parseInt(totalPayment, 10),
+      cashier: "Wyvern",
+    };
+
+    const response = await fetch("/api/v1/pushInvoice", {
+      method: "POST",
+      body: JSON.stringify(invoiceData),
+    });
+
     tempTransactions.map(async (transaction) => {
       const data = {
         menuId: transaction.id,
         quantity: parseInt(transaction.quantity, 10),
         total: parseInt(transaction.total, 10),
+        cashier: "Wyvern",
+        transactionId: lastInvoiceId,
       };
       const response = await fetch("/api/v1/pushTransactions", {
         method: "POST",
@@ -92,6 +125,8 @@ const Page = () => {
     });
 
     setTempTransactions([]);
+
+    fetchData();
   };
 
   const plusHandle = (e) => {
@@ -149,12 +184,10 @@ const Page = () => {
                     placeholder="Quantity"
                     className="remove-arrow appearance-none rounded-md px-3 py-1 text-xs w-full bg-neutral-800/80 placeholder:text-neutral-300/80 border border-neutral-600/50 focus:ring-neutral-600"
                     value={selectedQuantity}
-                    onChange={(event) =>
-                    {if (event.target.value >=0) {
-  
-                      setSelectedQuantity(event.target.value)
+                    onChange={(event) => {
+                      if (event.target.value >= 0) {
+                        setSelectedQuantity(event.target.value);
                       }
-                    
                     }}
                   ></input>
                   <button onClick={minusHandle}>
@@ -185,6 +218,9 @@ const Page = () => {
                         <th className="w-32 font-semibold px-4 py-2 whitespace-nowrap">
                           total
                         </th>
+                        <th className="w-32 font-semibold px-4 py-2 whitespace-nowrap">
+                          act
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="">
@@ -205,6 +241,18 @@ const Page = () => {
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap w-32 border-t border-neutral-600/30">
                               {item.total}
+                            </td>
+                            <td className="px-4 py-2 whitespace-nowrap w-32 border-t border-neutral-600/30">
+                              <button
+                                onClick={() => handleDelete(index)}
+                                className="p-2 bg-red-600/70 rounded-md"
+                              >
+                                <Trash
+                                  size={18}
+                                  color="#ecd9d9"
+                                  weight="bold"
+                                />
+                              </button>
                             </td>
                           </tr>
                         );
