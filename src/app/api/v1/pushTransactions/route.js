@@ -1,7 +1,8 @@
 import prisma from "@/app/libs/prisma";
 
 export async function POST(request) {
-  const { menuId, quantity, total } = await request.json();
+  const { menuId, quantity, total, cashier, transactionId } =
+    await request.json();
 
   const menuUpdate = await prisma.Menu.update({
     where: { id: menuId },
@@ -17,7 +18,7 @@ export async function POST(request) {
   }
 
   const transaction = await prisma.Transaction.create({
-    data: { menuId, quantity, total },
+    data: { menuId, quantity, total, cashier, transactionId },
   });
 
   if (!transaction) {
