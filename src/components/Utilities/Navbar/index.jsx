@@ -3,6 +3,7 @@
 import {
   ClipboardText,
   ClockCounterClockwise,
+  EggCrack,
   GearSix,
   HouseLine,
   ShoppingCartSimple,
@@ -110,6 +111,24 @@ const Navbar = () => {
           color="#737373"
           className={
             pathName.endsWith("/settings")
+              ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
+              : "group-hover:brightness-200 transition-all duration-300"
+          }
+        />
+      </Link>
+      <Link
+        href={"/login-page"}
+        className={
+          pathName.endsWith("/login-page")
+            ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
+            : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+        }
+      >
+        <EggCrack
+          size={22}
+          color="#737373"
+          className={
+            pathName.endsWith("/login-page")
               ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
               : "group-hover:brightness-200 transition-all duration-300"
           }
