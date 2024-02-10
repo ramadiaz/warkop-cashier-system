@@ -3,7 +3,7 @@ import Link from "next/link"
 
 const LoginPage = () => {
     return (
-        <div className="h-screen flex justify-center items-center gap-x-7">
+        <div className="h-screen flex justify-center items-center gap-x-7" id="loginPage">
             {/* Begin of Login */}
             <div className="flex flex-col gap-y-7 w-[300px]">
                 {/* Begin of Heading */}
@@ -43,11 +43,12 @@ const LoginPage = () => {
             {/* Begin of Image */}
             <div className="relative w-[600px] grid place-items-center">
                 <img
-                src="/loginsrc/room.jpeg" 
-                className="absolute rounded-2xl "/>
+                src="/loginsrc/sofa.jpg" 
+                className="absolute rounded-2xl"/>
                 <img
-                src="/loginsrc/room.gif"
-                className="absolute rounded-2xl "/>
+                src="/loginsrc/sofa.gif"
+                className="absolute rounded-2xl"
+                id="animimg"/>
             </div>
             {/* End of Image */}
         </div>
