@@ -21,12 +21,12 @@ const LoginPage = () => {
                 <span className="border-t-2 w-full text-center">OR</span>
 
                 {/* Begin of Google Btn */}
-                <div>
+                
                     <button className="flex justify-center items-center gap-x-3 p-2 rounded-2xl bg-neutral-700/40 hover:bg-neutral-700 transition">
                         <GoogleLogo className="text-xl"/>
                         <span className="text-sm">Login with Google</span>
                     </button>
-                </div>
+                
                 {/* End of Google Btn */}
 
                 <Link href="/" className="text-xs font-semibold underline">Forgot my Password</Link>

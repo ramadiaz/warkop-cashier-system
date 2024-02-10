@@ -63,13 +63,13 @@ const Page = () => {
               </tr>
             </thead>
             <tbody>
-              {transactions.body?.map((transaction) => {
+              {transactions.body?.map((transaction, index) => {
                 const itemData = menus.body.find(
                   (item) => item.id === transaction.menuId
                 );
 
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td className="w-20 px-4 py-2 border border-neutral-600/50 text-center">
                       {transaction.transactionId}
                     </td>

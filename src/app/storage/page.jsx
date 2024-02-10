@@ -7,6 +7,7 @@ import {
   ArrowsClockwise,
   MagnifyingGlass,
 } from "@phosphor-icons/react/dist/ssr";
+import { v4 as uuidv4 } from 'uuid';
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -51,6 +52,7 @@ const Page = () => {
       return;
     } else {
       const data = {
+        id: uuidv4(),
         name,
         type,
         price: parseInt(price, 10),

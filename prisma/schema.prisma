@@ -46,19 +46,22 @@ model Menu {
 
 model Transaction {
   id              Int              @id @default(autoincrement())
-  transactionId   Int
+  invoice         Invoice          @relation(fields: [invoiceId], references: [id])
+  invoiceId       Int
+  menu            Menu             @relation(fields: [menuId], references: [id])
   menuId          Int
   quantity        Int
   total           Int
   cashier         String
   createdAt       DateTime         @default(now())
 
-  menu      Menu             @relation(fields: [menuId], references: [id])
+  @@index([invoiceId], name: "invoiceId")
 }
 
 model Invoice {
   id              Int                @id @default(autoincrement())
   cashier         String
   total           Int
+  transactions    Transaction[]
   createdAt       DateTime         @default(now())
-} 
+}

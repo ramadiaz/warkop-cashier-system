@@ -25,16 +25,13 @@ const Page = () => {
       if (response.ok) {
         const data = await response.json();
         setMenuItems(data);
-
-        const lastInvoiceId =
-          data2.body.length > 0 ? data2.body[data2.body.length - 1].id : 0;
-
-        if (lastInvoiceId === data2.body.length) {
-          setLastInvoiceId(0);
-        } else {
-          setLastInvoiceId(lastInvoiceId);
-        }
-
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+      if (response2.ok) {
+        const data2 = await response2.json();
+        setLastInvoiceId(data2.body.length +1)
         setIsLoading(false);
       } else {
         setIsLoading(false);
