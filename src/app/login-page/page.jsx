@@ -43,12 +43,8 @@ const LoginPage = () => {
             {/* Begin of Image */}
             <div className="relative w-[600px] grid place-items-center">
                 <img
-                src="/loginsrc/sofa.jpg" 
-                className="absolute rounded-2xl"/>
-                <img
                 src="/loginsrc/sofa.gif"
-                className="absolute rounded-2xl"
-                id="animimg"/>
+                className="absolute rounded-2xl"/>
             </div>
             {/* End of Image */}
         </div>
