@@ -6,6 +6,8 @@ import Loading from "../loading";
 
 const Page = () => {
   const [transactions, setTransactions] = useState([]);
+  const [transactionsMenu, setTransactionsMenu] = useState([]);
+  const [cashierData, setCashierData] = useState([]);
   const [menus, setMenus] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,6 +27,20 @@ const Page = () => {
       setMenus(data);
     }
 
+    const response2 = await fetch("/api/v1/getTransactionsMenu");
+
+    if (response2.ok) {
+      const data = await response2.json();
+      setTransactionsMenu(data);
+    }
+
+    const cashier = await fetch("/api/v1/getCashier");
+
+    if (cashier.ok) {
+      const data = await cashier.json();
+      setCashierData(data);
+    }
+
     setIsLoading(false);
   };
 
@@ -40,66 +56,16 @@ const Page = () => {
       ) : (
         <div className="max-h-screen overflow-y-auto pb-16">
           <table className="text-sm text-left">
-            <thead className="bg-neutral-800 sticky top-0">
-              <tr>
-                <th className="w-20 px-4 py-2 border-r border-b border-neutral-600/50 text-center whitespace-nowrap">
-                  invoice id
-                </th>
-                <th className="w-72 px-4 py-2 border-r border-b border-neutral-600/50">
-                  item
-                </th>
-                <th className="w-20 px-4 py-2 border-r border-b border-neutral-600/50 text-center">
-                  quantity
-                </th>
-                <th className="w-40 px-4 py-2 border-r border-b border-neutral-600/50">
-                  total
-                </th>
-                <th className="w-40 px-4 py-2 border-r border-b border-neutral-600/50">
-                  cashier
-                </th>
-                <th className="w-60 px-4 py-2 border-r border-b border-neutral-600/50">
-                  date
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.body?.map((transaction, index) => {
-                const itemData = menus.body.find(
-                  (item) => item.id === transaction.menuId
-                );
-
-                return (
-                  <tr key={index}>
-                    <td className="w-20 px-4 py-2 border border-neutral-600/50 text-center">
-                      {transaction.transactionId}
-                    </td>
-                    <td className="w-72 px-4 py-2 border border-neutral-600/50">
-                      {itemData.name}
-                    </td>
-                    <td className="w-20 px-4 py-2 border border-neutral-600/50 text-center">
-                      {transaction.quantity}
-                    </td>
-                    <td className="w-40 px-4 py-2 border border-neutral-600/50">
-                      Rp. {transaction.total},-
-                    </td>
-                    <td className="w-40 px-4 py-2 border border-neutral-600/50">
-                      {transaction.cashier}
-                    </td>
-                    <td className="w-60 px-4 py-2 border border-neutral-600/50">
-                      {new Date(transaction.createdAt).toLocaleString("en-US", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        second: "2-digit",
-                      })}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+            
           </table>
+          {/* {new Date(transaction.createdAt).toLocaleString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })} */}
         </div>
       )}
     </div>
