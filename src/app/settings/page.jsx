@@ -1,3 +1,5 @@
+'use client'
+
 import Header from "@/components/Utilities/Header"
 
 const Page = () => {

@@ -11,18 +11,18 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -38,14 +38,18 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
   hashedPassword String?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  image          String?
+  address        String?
+  contact        String?
+  role           String?
+  transactions Transaction[]
+  accounts       Account[]
+  sessions       Session[]
 }
 
 model VerificationToken {
@@ -61,16 +65,6 @@ model WarkopData {
   name    String
   address String
   contact String
-}
-
-model Cashier {
-  id           Int           @id @default(autoincrement())
-  name         String
-  address      String
-  contact      String
-  email        String
-  password     String
-  transactions Transaction[]
 }
 
 enum Type {
@@ -94,8 +88,8 @@ model Menu {
 model Transaction {
   id          Int               @id @default(autoincrement())
   menus       TransactionMenu[]
-  cashier     Cashier           @relation(fields: [cashierId], references: [id])
-  cashierId   Int
+  cashier     User           @relation(fields: [cashierId], references: [id])
+  cashierId   String
   totalAmount Int
   cash        Int
   change      Int

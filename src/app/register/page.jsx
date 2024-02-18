@@ -8,7 +8,9 @@ const Page = () => {
     const [data, setData] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        address: '',
+        contact: ''
     })
 
     const registerUser = async (e) => {
@@ -40,12 +42,28 @@ const Page = () => {
           />
 
           <input
-            type="text"
+            type="email"
             className="block border border-grey-light w-full p-3 rounded mb-4"
             name="email"
             placeholder="Email"
             value={data.email}
             onChange={(e) => {setData({...data, email: e.target.value})}}
+          />
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="contact"
+            placeholder="Contact"
+            value={data.contact}
+            onChange={(e) => {setData({...data, contact: e.target.value})}}
+          />
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="address"
+            placeholder="Address"
+            value={data.address}
+            onChange={(e) => {setData({...data, address: e.target.value})}}
           />
 
           <input

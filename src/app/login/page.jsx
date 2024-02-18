@@ -15,16 +15,16 @@ const LoginPage = () => {
 
   const loginUser = async (e) => {
     e.preventDefault();
-    signIn('credentials', {
-        ...data,
-        redirect: false,
+    signIn("credentials", {
+      ...data,
+      redirect: false,
     });
-    router.push("/")
+    router.push("/");
   };
 
   return (
     <div
-      className="h-screen flex justify-center items-center gap-x-7"
+      className="h-screen flex justify-center items-center gap-x-7 mx-6"
       id="loginPage"
     >
       {/* Begin of Login */}
@@ -55,9 +55,10 @@ const LoginPage = () => {
           />
           <button
             type="submit"
-            value="Login"
             className="bg-neutral-700/40 tracking-wider p-2 rounded-2xl hover:bg-neutral-700 transition"
-          />
+          >
+            Login
+          </button>
         </form>
         {/* End of Login Form  */}
 
@@ -81,7 +82,12 @@ const LoginPage = () => {
           <p className="text-sm">
             If you don't have an account, please register.
           </p>
-          <button onClick={(e) => {router.push('/register')}} className="bg-neutral-700/40 hover:bg-neutral-700 transition px-4 py-1 rounded-2xl text-sm tracking-wider">
+          <button
+            onClick={(e) => {
+              router.push("/register");
+            }}
+            className="bg-neutral-700/40 hover:bg-neutral-700 transition px-4 py-1 rounded-2xl text-sm tracking-wider"
+          >
             Register
           </button>
         </div>
