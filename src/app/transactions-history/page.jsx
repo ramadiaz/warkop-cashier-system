@@ -7,10 +7,11 @@ import Loading from "../loading";
 const Page = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [cashierData, setCashierData] = useState([])
+  const email = 'rama@gmail.com'
 
   const fetchData = async () => {
     try {
-      const res = await fetch(`/api/v1/getUserInfo`)
+      const res = await fetch(`/api/v1/getUserInfo/${email}`)
 
       console.log(res)
       if(res.ok){
@@ -36,7 +37,7 @@ const Page = () => {
     <div>
       {isLoading ? "Loading" : (
 
-        <h3>{cashierData.body.name}</h3>
+        <h3>{cashierData.body?.name}</h3>
       )}
     </div>
   )

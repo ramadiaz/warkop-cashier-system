@@ -1,15 +1,15 @@
 import prisma from "@/app/libs/prisma";
 
-export async function GET(request) {
-    // const { email } = request.query;
+export async function GET(request, {params: e}) {
+    const { email } = e;
 
-    // if (!email) {
-    //     return Response.json({ status: 400, message: "Email parameter is required" });
-    // }
+    if (!email) {
+        return Response.json({ status: 400, message: "Email parameter is required" });
+    }
 
     const userInfo = await prisma.user.findUnique({
         where: {
-          email: 'rama@gmail.com'
+          email: email.toString()
         }
     });
     console.log(userInfo)
