@@ -9,13 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^1.4.0",
     "@canvas-fonts/helvetica": "^1.0.4",
     "@phosphor-icons/react": "^2.0.15",
     "@prisma/client": "^5.9.1",
     "axios": "^1.6.5",
+    "bcrypt": "^5.1.1",
     "daisyui": "^4.6.0",
     "eslint-config-next": "^14.0.4",
     "next": "^14.0.4",
+    "next-auth": "^4.24.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-select": "^5.8.0",

@@ -1,10 +1,12 @@
 "use client"
+
+import { useSession } from "next-auth/react"
 import ButtonHomepage from "@/components/Utilities/ButtonHomepage"
 
-
-
-
 const Page = () => {
+    const session = useSession()
+    console.log(session)
+
     return (
         <div className="container mx-6 py-8">
             <section className="text-start">
