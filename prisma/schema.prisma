@@ -38,16 +38,15 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  hashedPassword String?
-  image          String?
-  address        String?
-  contact        String?
-  role           String?
-  transactions Transaction[]
+  id             String        @id @default(cuid())
+  name           String
+  email          String        @unique
+  emailVerified  DateTime      @default(now())
+  hashedPassword String
+  address        String
+  contact        String
+  role           String
+  transactions   Transaction[]
   accounts       Account[]
   sessions       Session[]
 }
@@ -88,7 +87,7 @@ model Menu {
 model Transaction {
   id          Int               @id @default(autoincrement())
   menus       TransactionMenu[]
-  cashier     User           @relation(fields: [cashierId], references: [id])
+  cashier     User              @relation(fields: [cashierId], references: [id])
   cashierId   String
   totalAmount Int
   cash        Int
