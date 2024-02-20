@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import Loading from "../loading";
 import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
+import { useSession } from "next-auth/react";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -18,6 +19,12 @@ const Page = () => {
   const [totalItem, setTotalItem] = useState(0);
   const [cash, setCash] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [cashierData, setCashierData] = useState([]);
+  const session = useSession();
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -26,19 +33,31 @@ const Page = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setMenuItems(data);
-        setIsLoading(false);
+        setMenuItems(data)
       }
+
+      const res = await fetch(
+        `/api/v1/getUserInfo/${session?.data?.user?.email}`
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        setCashierData(data.body);
+      }
+      
+      setIsLoading(false)
     } catch (error) {
       console.error("Error fetching data:", error);
       setIsLoading(false);
     }
     setIsLoading(false);
   };
-
+  
   useEffect(() => {
     fetchData();
   }, []);
+
+ 
 
   const options = menuItems.body
     ?.map(
@@ -103,7 +122,7 @@ const Page = () => {
 
   const pushTransactions = async () => {
     const transactionData = {
-      cashierId: 1,
+      cashierId: cashierData.id,
       totalAmount: totalPayment,
       cash,
       change: cash - totalPayment,
