@@ -280,7 +280,10 @@ const Page = () => {
                       Total: Rp. {totalPayment.toLocaleString()},-
                     </h3>
 
-                    <Modal>
+                    <Modal
+                      disable={false}
+                      text={`OPEN MODALL`}
+                    >
                       <div>
                         <table className="w-full text-sm">
                           <tbody className="">
