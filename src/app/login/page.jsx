@@ -17,9 +17,8 @@ const LoginPage = () => {
     e.preventDefault();
     signIn("credentials", {
       ...data,
-      redirect: false,
+      callbackUrl: '/',
     });
-    router.push("/");
   };
 
   return (

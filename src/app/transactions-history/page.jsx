@@ -3,17 +3,18 @@
 import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
+import { useSession } from "next-auth/react";
 
 const Page = () => {
+  
+  const session = useSession();
   const [isLoading, setIsLoading] = useState(true)
   const [cashierData, setCashierData] = useState([])
-  const email = 'rama@gmail.com'
-
+  
   const fetchData = async () => {
     try {
-      const res = await fetch(`/api/v1/getUserInfo/${email}`)
+      const res = await fetch(`/api/v1/getUserInfo/${session?.data?.user?.email}`)
 
-      console.log(res)
       if(res.ok){
         const data = await res.json()
         setCashierData(data)
@@ -35,6 +36,7 @@ const Page = () => {
 
   return(
     <div>
+      <Header title={`Transaction History`}/>
       {isLoading ? "Loading" : (
 
         <h3>{cashierData.body?.name}</h3>

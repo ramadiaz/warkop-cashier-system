@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Header = ({ title }) => {
   const session = useSession();
-  console.log(session)
+
   return (
     <div className="w-full border-b border-neutral-600/50 flex justify-between items-center">
       <h1 className="py-4 px-4 text-xl font-semibold">{title}</h1>
