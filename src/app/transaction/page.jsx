@@ -9,6 +9,7 @@ import ReactSelect from "react-select";
 import Loading from "../loading";
 import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
 import { useSession } from "next-auth/react";
+import Modal from "@/components/Utilities/Modal";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -33,7 +34,7 @@ const Page = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setMenuItems(data)
+        setMenuItems(data);
       }
 
       const res = await fetch(
@@ -44,20 +45,18 @@ const Page = () => {
         const data = await res.json();
         setCashierData(data.body);
       }
-      
-      setIsLoading(false)
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
       setIsLoading(false);
     }
     setIsLoading(false);
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
-
- 
 
   const options = menuItems.body
     ?.map(
@@ -280,6 +279,34 @@ const Page = () => {
                     <h3 className="w-full bg-gradient-to-r from-neutral-900 from-10% bg-emerald-700 text-right pr-8 font-extrabold text-white">
                       Total: Rp. {totalPayment.toLocaleString()},-
                     </h3>
+
+                    <Modal>
+                      <div>
+                        <table className="w-full text-sm">
+                          <tbody className="">
+                            {tempTransactions?.map((item, index) => {
+                              return (
+                                <tr key={index} className="">
+                                  <td>{item.name}</td>
+                                  <td>x{item.quantity}</td>
+                                  <td>{item.price}</td>
+                                  <td>{item.amount}</td>
+                                </tr>
+                              );
+                            })}
+                            <tr className="h-2" />
+                            <tr className="border-t border-neutral-900"></tr>
+                            <tr className="h-2" />
+                            <tr className="">
+                              <td>Total Item</td>
+                              <td colSpan={2}>{totalItem}</td>
+                              <td>{totalPayment}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </Modal>
+
                     <Popup
                       trigger={<button className="button"> Open Modal </button>}
                       modal
@@ -323,43 +350,42 @@ const Page = () => {
                           >
                             {(close) => (
                               <div className="text-neutral-900 border border-neutral-900 p-3">
-                                <div className="flex justify-between">
-                                  <h2>Total Payment:</h2>
-                                  <h2>Rp.{totalPayment}</h2>
+                                <div className="bg-amber-300">
+                                  <div className="flex justify-between">
+                                    <h2>Total Payment:</h2>
+                                    <h2>Rp.{totalPayment}</h2>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <h2>Cash:</h2>
+                                    <input
+                                      type="number"
+                                      placeholder=""
+                                      className="remove-arrow appearance-none rounded-md bg-white border border-neutral-900 py-2 px-4"
+                                      value={cash}
+                                      onChange={(event) => {
+                                        if (event.target.value >= 0) {
+                                          setCash(event.target.value);
+                                        }
+                                      }}
+                                    ></input>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <h2>Change:</h2>
+                                    <h2>Rp.{cash - totalPayment}</h2>
+                                  </div>
+                                  <button
+                                    onClick={pushTransactions}
+                                    className="font-bold"
+                                  >
+                                    Confirm Payment
+                                  </button>
                                 </div>
-                                <div className="flex justify-between">
-                                  <h2>Cash:</h2>
-                                  <input
-                                    type="number"
-                                    placeholder=""
-                                    className="remove-arrow appearance-none rounded-md bg-white border border-neutral-900 py-2 px-4"
-                                    value={cash}
-                                    onChange={(event) => {
-                                      if (event.target.value >= 0) {
-                                        setCash(event.target.value);
-                                      }
-                                    }}
-                                  ></input>
-                                </div>
-                                <div className="flex justify-between">
-                                  <h2>Change:</h2>
-                                  <h2>Rp.{cash - totalPayment}</h2>
-                                </div>
-                                <button
-                                  onClick={pushTransactions}
-                                  className="font-bold"
-                                >
-                                  Confirm Payment
-                                </button>
                               </div>
                             )}
                           </Popup>
                         </div>
                       )}
                     </Popup>
-                    <button onClick={pushTransactions} className="font-bold">
-                      Submit to database
-                    </button>
                   </div>
                 </div>
               </div>
