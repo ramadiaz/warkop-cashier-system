@@ -1,6 +1,5 @@
 "use client";
 
-import { GoogleLogo } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -60,32 +59,33 @@ const LoginPage = () => {
           </button>
         </form>
         {/* End of Login Form  */}
+        <div className="w-full text-end">
 
-        <span className="border-t-2 w-full text-center">OR</span>
+          <Link
+            href="/"
+            className="text-xs font-semibold no-underline w-max
+          border-b border-grey-dark hover:border-green-400 hover:text-green-400 transition-all duration-300"
+          >
+            Forgot my Password
+          </Link>
+        </div>
 
-        {/* Begin of Google Btn */}
+        <span className="border-t-2 w-full text-center"></span>
 
-        <button className="flex justify-center items-center gap-x-3 p-2 rounded-2xl bg-neutral-700/40 hover:bg-neutral-700 transition">
-          <GoogleLogo className="text-xl" />
-          <span className="text-sm">Login with Google</span>
-        </button>
 
-        {/* End of Google Btn */}
 
-        <Link href="/" className="text-xs font-semibold underline">
-          Forgot my Password
-        </Link>
 
         {/* Begin of Register */}
         <div className="flex flex-col item-start gap-y-3 ">
-          <p className="text-sm">
+          <p className="text-sm text-center">
             If you don't have an account, please register.
           </p>
           <button
             onClick={(e) => {
               router.push("/register");
             }}
-            className="bg-neutral-700/40 hover:bg-neutral-700 transition px-4 py-1 rounded-2xl text-sm tracking-wider"
+            className="bg-neutral-700/40 hover:bg-neutral-700 transition px-4 py-1 rounded-2xl text-sm 
+            tracking-wider"
           >
             Register
           </button>
