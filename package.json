@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^1.4.0",
     "@canvas-fonts/helvetica": "^1.0.4",
+    "@headlessui/react": "^1.7.18",
     "@phosphor-icons/react": "^2.0.15",
     "@prisma/client": "^5.9.1",
     "axios": "^1.6.5",

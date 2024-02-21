@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Fragment } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Header from "@/components/Utilities/Header";
@@ -10,6 +10,7 @@ import Loading from "../loading";
 import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
 import { useSession } from "next-auth/react";
 import Modal from "@/components/Utilities/Modal";
+import { Dialog, Transition } from "@headlessui/react";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -22,10 +23,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [cashierData, setCashierData] = useState([]);
   const session = useSession();
-
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  const [isOpen, setIsOpen] = useState(false)
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -155,6 +153,10 @@ const Page = () => {
     }
   };
 
+  const handleModal = () => {
+    setIsOpen(!isOpen)
+  }
+
   return (
     <div className="transaction">
       <div className="flex flex-col min-h-screen max-h-screen">
@@ -280,10 +282,72 @@ const Page = () => {
                       Total: Rp. {totalPayment.toLocaleString()},-
                     </h3>
 
-                    <Modal
-                      disable={false}
-                      text={`OPEN MODALL`}
+                    <div className="fixed inset-0 flex items-center justify-center">
+        <button
+          type="button"
+          onClick={handleModal}
+          className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
+        >
+          Open dialog
+        </button>
+      </div>
+
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={handleModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Payment successful
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Your payment has been successfully submitted. We’ve sent
+                      you an email with all of the details of your order.
+                    </p>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={handleModal}
                     >
+                      Got it, thanks!
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
+                    {/* <Modal disable={false} text={`OPEN MODALL`}>
                       <div>
                         <table className="w-full text-sm">
                           <tbody className="">
@@ -307,6 +371,40 @@ const Page = () => {
                             </tr>
                           </tbody>
                         </table>
+                        <Modal text={`Confirm`} disable={false}>
+                          <div className="text-neutral-900 border border-neutral-900 p-3">
+                            <div className="bg-amber-300">
+                              <div className="flex justify-between">
+                                <h2>Total Payment:</h2>
+                                <h2>Rp.{totalPayment}</h2>
+                              </div>
+                              <div className="flex justify-between">
+                                <h2>Cash:</h2>
+                                <input
+                                  type="number"
+                                  placeholder=""
+                                  className="remove-arrow appearance-none rounded-md bg-white border border-neutral-900 py-2 px-4"
+                                  value={cash}
+                                  onChange={(event) => {
+                                    if (event.target.value >= 0) {
+                                      setCash(event.target.value);
+                                    }
+                                  }}
+                                ></input>
+                              </div>
+                              <div className="flex justify-between">
+                                <h2>Change:</h2>
+                                <h2>Rp.{cash - totalPayment}</h2>
+                              </div>
+                              <button
+                                onClick={pushTransactions}
+                                className="font-bold"
+                              >
+                                Confirm Payment
+                              </button>
+                            </div>
+                          </div>
+                        </Modal>
                       </div>
                     </Modal>
 
@@ -388,7 +486,7 @@ const Page = () => {
                           </Popup>
                         </div>
                       )}
-                    </Popup>
+                    </Popup> */}
                   </div>
                 </div>
               </div>

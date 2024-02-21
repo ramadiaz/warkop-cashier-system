@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const Modal = ({ children, disable, text }) => {
+const Modal = ({ children, disable, text}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenClose = () => {
@@ -14,11 +14,9 @@ const Modal = ({ children, disable, text }) => {
     <div className="">
       <button
         onClick={() => {
-            if (!disable) {
-
-                handleOpenClose();
-            }
-            
+          if (!disable) {
+            handleOpenClose();
+          }
         }}
         disabled={disable}
         className={disable ? `opacity-50` : ``}
