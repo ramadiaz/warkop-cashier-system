@@ -4,11 +4,16 @@ export async function POST(req) {
   try {
     const { cashierId, totalAmount, cash, change, menus } = await req.json();
     
-    if (!cashierId || !totalAmount || !cash || !menus) {
+    if(!cashierId) {
+      throw new Error("Missing cashierId")
+    }
+
+    if (!totalAmount || !cash || !menus) {
       throw new Error("Missing required parameters");
     }
 
     const cashInt = parseInt(cash)
+    const changeInt = parseInt(change)
 
     console.log(menus);
 
@@ -17,7 +22,7 @@ export async function POST(req) {
         cashier: { connect: { id: cashierId } },
         totalAmount,
         cash: cashInt,
-        change,
+        change: changeInt,
         menus: {
           create: menus.map((menu) => ({
             menu: { connect: { id: menu.menuId } },

@@ -22,8 +22,10 @@ const Page = () => {
   const [cash, setCash] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [cashierData, setCashierData] = useState([]);
+  const [confirmationModal, setConfirmationModal] = useState(false);
+  const [paymentModal, setPaymentModal] = useState(false);
+  const [isPaymentAllowed, setIsPaymenAllowed] = useState(false);
   const session = useSession();
-  const [isOpen, setIsOpen] = useState(false)
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -55,6 +57,10 @@ const Page = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    setIsPaymenAllowed(tempTransactions.length > 0);
+  }, [tempTransactions]);
 
   const options = menuItems.body
     ?.map(
@@ -105,6 +111,7 @@ const Page = () => {
           setTotalItem(totalItem + selectedQuantity);
 
           setSelectedQuantity(0);
+          setIsPaymenAllowed(true);
         }
       }
     }
@@ -114,7 +121,8 @@ const Page = () => {
     const updatedTransactions = [...tempTransactions];
     const deletedItem = updatedTransactions.splice(index, 1)[0];
     setTempTransactions(updatedTransactions);
-    setTotalPayment(totalPayment - deletedItem.total);
+    setTotalPayment(totalPayment - deletedItem.amount);
+    setTotalItem(totalItem - deletedItem.quantity);
   };
 
   const pushTransactions = async () => {
@@ -136,6 +144,8 @@ const Page = () => {
     }
 
     setTempTransactions([]);
+    setTotalPayment(0);
+    setTotalItem(0);
 
     fetchData();
   };
@@ -153,9 +163,12 @@ const Page = () => {
     }
   };
 
-  const handleModal = () => {
-    setIsOpen(!isOpen)
-  }
+  const handleConfirmationModal = () => {
+    setConfirmationModal(!confirmationModal);
+  };
+  const handlePaymentModal = () => {
+    setPaymentModal(!paymentModal);
+  };
 
   return (
     <div className="transaction">
@@ -282,211 +295,191 @@ const Page = () => {
                       Total: Rp. {totalPayment.toLocaleString()},-
                     </h3>
 
-                    <div className="fixed inset-0 flex items-center justify-center">
-        <button
-          type="button"
-          onClick={handleModal}
-          className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
-        >
-          Open dialog
-        </button>
-      </div>
+                    <div className="">
+                      <button
+                        type="button"
+                        onClick={handleConfirmationModal}
+                        disabled={!isPaymentAllowed}
+                        className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
+                      >
+                        Confirm Payment
+                      </button>
+                    </div>
 
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={handleModal}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/25" />
-          </Transition.Child>
+                    <Transition appear show={confirmationModal} as={Fragment}>
+                      <Dialog
+                        as="div"
+                        className="relative z-10"
+                        onClose={handleConfirmationModal}
+                      >
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0"
+                          enterTo="opacity-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <div className="fixed inset-0 bg-black/25" />
+                        </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    Payment successful
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p>
-                  </div>
+                        <div className="fixed inset-0 overflow-y-auto">
+                          <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child
+                              as={Fragment}
+                              enter="ease-out duration-300"
+                              enterFrom="opacity-0 scale-95"
+                              enterTo="opacity-100 scale-100"
+                              leave="ease-in duration-200"
+                              leaveFrom="opacity-100 scale-100"
+                              leaveTo="opacity-0 scale-95"
+                            >
+                              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Title
+                                  as="h3"
+                                  className="text-lg font-medium leading-6 text-neutral-900"
+                                >
+                                  Transaction confirmation
+                                </Dialog.Title>
+                                <div className="mt-2 text-neutral-900">
+                                  <table className="w-full text-sm">
+                                    <tbody className="">
+                                      {tempTransactions?.map((item, index) => {
+                                        return (
+                                          <tr key={index} className="">
+                                            <td>{item.name}</td>
+                                            <td>x{item.quantity}</td>
+                                            <td>{item.price}</td>
+                                            <td>{item.amount}</td>
+                                          </tr>
+                                        );
+                                      })}
+                                      <tr className="h-2" />
+                                      <tr className="border-t border-neutral-900"></tr>
+                                      <tr className="h-2" />
+                                      <tr className="">
+                                        <td>Total Item</td>
+                                        <td colSpan={2}>{totalItem}</td>
+                                        <td>{totalPayment}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
 
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={handleModal}
-                    >
-                      Got it, thanks!
-                    </button>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
-
-                    {/* <Modal disable={false} text={`OPEN MODALL`}>
-                      <div>
-                        <table className="w-full text-sm">
-                          <tbody className="">
-                            {tempTransactions?.map((item, index) => {
-                              return (
-                                <tr key={index} className="">
-                                  <td>{item.name}</td>
-                                  <td>x{item.quantity}</td>
-                                  <td>{item.price}</td>
-                                  <td>{item.amount}</td>
-                                </tr>
-                              );
-                            })}
-                            <tr className="h-2" />
-                            <tr className="border-t border-neutral-900"></tr>
-                            <tr className="h-2" />
-                            <tr className="">
-                              <td>Total Item</td>
-                              <td colSpan={2}>{totalItem}</td>
-                              <td>{totalPayment}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <Modal text={`Confirm`} disable={false}>
-                          <div className="text-neutral-900 border border-neutral-900 p-3">
-                            <div className="bg-amber-300">
-                              <div className="flex justify-between">
-                                <h2>Total Payment:</h2>
-                                <h2>Rp.{totalPayment}</h2>
-                              </div>
-                              <div className="flex justify-between">
-                                <h2>Cash:</h2>
-                                <input
-                                  type="number"
-                                  placeholder=""
-                                  className="remove-arrow appearance-none rounded-md bg-white border border-neutral-900 py-2 px-4"
-                                  value={cash}
-                                  onChange={(event) => {
-                                    if (event.target.value >= 0) {
-                                      setCash(event.target.value);
-                                    }
-                                  }}
-                                ></input>
-                              </div>
-                              <div className="flex justify-between">
-                                <h2>Change:</h2>
-                                <h2>Rp.{cash - totalPayment}</h2>
-                              </div>
-                              <button
-                                onClick={pushTransactions}
-                                className="font-bold"
-                              >
-                                Confirm Payment
-                              </button>
-                            </div>
-                          </div>
-                        </Modal>
-                      </div>
-                    </Modal>
-
-                    <Popup
-                      trigger={<button className="button"> Open Modal </button>}
-                      modal
-                      nested
-                    >
-                      {(close) => (
-                        <div className="modal text-neutral-900 border border-neutral-900 p-3">
-                          <div className="flex justify-between text-xs uppercase border-b border-neutral-900 mb-2 pb-2">
-                            <h4>PAYMENT</h4>
-                            <h4>Cashier: Wyvern</h4>
-                          </div>
-
-                          <table className="w-full text-sm">
-                            <tbody className="">
-                              {tempTransactions?.map((item, index) => {
-                                return (
-                                  <tr key={index} className="">
-                                    <td>{item.name}</td>
-                                    <td>x{item.quantity}</td>
-                                    <td>{item.price}</td>
-                                    <td>{item.amount}</td>
-                                  </tr>
-                                );
-                              })}
-                              <tr className="h-2" />
-                              <tr className="border-t border-neutral-900"></tr>
-                              <tr className="h-2" />
-                              <tr className="">
-                                <td>Total Item</td>
-                                <td colSpan={2}>{totalItem}</td>
-                                <td>{totalPayment}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-
-                          <Popup
-                            trigger={
-                              <button className="button">Confirm </button>
-                            }
-                            modal
-                          >
-                            {(close) => (
-                              <div className="text-neutral-900 border border-neutral-900 p-3">
-                                <div className="bg-amber-300">
-                                  <div className="flex justify-between">
-                                    <h2>Total Payment:</h2>
-                                    <h2>Rp.{totalPayment}</h2>
-                                  </div>
-                                  <div className="flex justify-between">
-                                    <h2>Cash:</h2>
-                                    <input
-                                      type="number"
-                                      placeholder=""
-                                      className="remove-arrow appearance-none rounded-md bg-white border border-neutral-900 py-2 px-4"
-                                      value={cash}
-                                      onChange={(event) => {
-                                        if (event.target.value >= 0) {
-                                          setCash(event.target.value);
-                                        }
-                                      }}
-                                    ></input>
-                                  </div>
-                                  <div className="flex justify-between">
-                                    <h2>Change:</h2>
-                                    <h2>Rp.{cash - totalPayment}</h2>
-                                  </div>
+                                <div className="mt-4">
                                   <button
-                                    onClick={pushTransactions}
-                                    className="font-bold"
+                                    type="button"
+                                    className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 px-4 py-2 text-sm font-medium text-neutral-900 hover:bg-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300"
+                                    onClick={() => {
+                                      handlePaymentModal();
+                                      handleConfirmationModal();
+                                    }}
                                   >
-                                    Confirm Payment
+                                    Continue Payment
                                   </button>
                                 </div>
-                              </div>
-                            )}
-                          </Popup>
+                              </Dialog.Panel>
+                            </Transition.Child>
+                          </div>
                         </div>
-                      )}
-                    </Popup> */}
+                      </Dialog>
+                    </Transition>
+
+                    <Transition appear show={paymentModal} as={Fragment}>
+                      <Dialog
+                        as="div"
+                        className="relative z-10"
+                        onClose={handlePaymentModal}
+                      >
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0"
+                          enterTo="opacity-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <div className="fixed inset-0 bg-black/25" />
+                        </Transition.Child>
+
+                        <div className="fixed inset-0 overflow-y-auto">
+                          <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child
+                              as={Fragment}
+                              enter="ease-out duration-300"
+                              enterFrom="opacity-0 scale-95"
+                              enterTo="opacity-100 scale-100"
+                              leave="ease-in duration-200"
+                              leaveFrom="opacity-100 scale-100"
+                              leaveTo="opacity-0 scale-95"
+                            >
+                              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Title
+                                  as="h3"
+                                  className="text-lg font-medium leading-6 text-neutral-900 flex flex-row justify-between"
+                                >
+                                  <span>
+                                    Payment
+                                  </span>
+                                  <span className="font-normal text-sm">
+                                    Cashier: {cashierData?.name}
+                                  </span>
+                                </Dialog.Title>
+                                <div className="mt-2 text-neutral-900">
+                                  <div className="text-neutral-900 py-3">
+                                    <div className="space-y-1">
+                                      <div className="flex justify-between">
+                                        <h2>Total Payment:</h2>
+                                        <h2>Rp.{totalPayment}</h2>
+                                      </div>
+                                      <div className="flex justify-between">
+                                        <h2>Cash:</h2>
+                                        <input
+                                          type="number"
+                                          placeholder=""
+                                          className="remove-arrow appearance-none rounded-md bg-white border border-neutral-900 py-2 px-4"
+                                          value={cash}
+                                          onChange={(event) => {
+                                            if (event.target.value >= 0) {
+                                              setCash(event.target.value);
+                                            }
+                                          }}
+                                        ></input>
+                                      </div>
+                                      <div className="flex justify-between">
+                                        <h2>Change:</h2>
+                                        <h2>Rp.{cash - totalPayment}</h2>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="mt-4">
+                                  <button
+                                    type="button"
+                                    disabled={cash - totalPayment < 0}
+                                    className={`inline-flex justify-center rounded-md border border-transparent ${
+                                      cash - totalPayment < 0
+                                        ? "bg-gray-700/70"
+                                        : "bg-green-500/70 hover:bg-green-500"
+                                    } px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300`}
+                                    onClick={() => {
+                                      pushTransactions();
+                                    }}
+
+                                    //
+                                  >
+                                    Confirm
+                                  </button>
+                                </div>
+                              </Dialog.Panel>
+                            </Transition.Child>
+                          </div>
+                        </div>
+                      </Dialog>
+                    </Transition>
                   </div>
                 </div>
               </div>
