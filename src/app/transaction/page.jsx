@@ -291,11 +291,11 @@ const Page = () => {
                 </div>
                 <div className="total-panel fixed bottom-0 h-20 border-t border-neutral-600/80 bg-neutral-900 w-full pr-72">
                   <div className="w-full flex flex-col items-end">
-                    <h3 className="w-full bg-gradient-to-r from-neutral-900 from-10% bg-emerald-700 text-right pr-8 font-extrabold text-white">
+                    <h3 className="w-full bg-gradient-to-r from-neutral-900 from-10% bg-emerald-700 text-right mr-2 font-extrabold text-white">
                       Total: Rp. {totalPayment.toLocaleString()},-
                     </h3>
 
-                    <div className="">
+                    <div className="mr-2">
                       <button
                         type="button"
                         onClick={handleConfirmationModal}
