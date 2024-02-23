@@ -1,7 +1,6 @@
 "use client";
 
 import React, { Fragment } from "react";
-import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
@@ -9,7 +8,6 @@ import ReactSelect from "react-select";
 import Loading from "../loading";
 import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
 import { useSession } from "next-auth/react";
-import Modal from "@/components/Utilities/Modal";
 import { Dialog, Transition } from "@headlessui/react";
 
 const Page = () => {
@@ -21,9 +19,12 @@ const Page = () => {
   const [totalItem, setTotalItem] = useState(0);
   const [cash, setCash] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isTransactionLoading, setIsTransactionLoading] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(true);
   const [cashierData, setCashierData] = useState([]);
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [paymentModal, setPaymentModal] = useState(false);
+  const [invoiceModal, setInvoiceModal] = useState(false);
   const [isPaymentAllowed, setIsPaymenAllowed] = useState(false);
   const session = useSession();
 
@@ -126,6 +127,12 @@ const Page = () => {
   };
 
   const pushTransactions = async () => {
+    setIsTransactionLoading(true);
+    if (!cashierData) {
+      setIsSuccess(false);
+      setIsTransactionLoading(false);
+      return null;
+    }
     const transactionData = {
       cashierId: cashierData.id,
       totalAmount: totalPayment,
@@ -139,15 +146,25 @@ const Page = () => {
         method: "POST",
         body: JSON.stringify(transactionData),
       });
+
+      if (response.ok) {
+        setIsTransactionLoading(false);
+        setIsSuccess(true);
+        setTempTransactions([]);
+        setTotalPayment(0);
+        setTotalItem(0);
+        setCash(0);
+      } else {
+        setIsTransactionLoading(false);
+        setIsSuccess(false);
+        console.error("Failed to push transaction:", response.status);
+      }
     } catch (err) {
       console.error(err);
+      setIsSuccess(false);
+      setIsTransactionLoading(false);
     }
-
-    setTempTransactions([]);
-    setTotalPayment(0);
-    setTotalItem(0);
-
-    fetchData();
+    setIsTransactionLoading(false);
   };
 
   const plusHandle = (e) => {
@@ -168,6 +185,9 @@ const Page = () => {
   };
   const handlePaymentModal = () => {
     setPaymentModal(!paymentModal);
+  };
+  const handleInvoiceModal = () => {
+    setInvoiceModal(!invoiceModal);
   };
 
   return (
@@ -420,9 +440,7 @@ const Page = () => {
                                   as="h3"
                                   className="text-lg font-medium leading-6 text-neutral-900 flex flex-row justify-between"
                                 >
-                                  <span>
-                                    Payment
-                                  </span>
+                                  <span>Payment</span>
                                   <span className="font-normal text-sm">
                                     Cashier: {cashierData?.name}
                                   </span>
@@ -467,12 +485,86 @@ const Page = () => {
                                     } px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300`}
                                     onClick={() => {
                                       pushTransactions();
+                                      handlePaymentModal();
+                                      handleInvoiceModal();
                                     }}
 
                                     //
                                   >
                                     Confirm
                                   </button>
+                                </div>
+                              </Dialog.Panel>
+                            </Transition.Child>
+                          </div>
+                        </div>
+                      </Dialog>
+                    </Transition>
+
+                    <Transition appear show={invoiceModal} as={Fragment}>
+                      <Dialog
+                        as="div"
+                        className="relative z-10"
+                        onClose={handleInvoiceModal}
+                      >
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0"
+                          enterTo="opacity-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <div className="fixed inset-0 bg-black/25" />
+                        </Transition.Child>
+
+                        <div className="fixed inset-0 overflow-y-auto">
+                          <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child
+                              as={Fragment}
+                              enter="ease-out duration-300"
+                              enterFrom="opacity-0 scale-95"
+                              enterTo="opacity-100 scale-100"
+                              leave="ease-in duration-200"
+                              leaveFrom="opacity-100 scale-100"
+                              leaveTo="opacity-0 scale-95"
+                            >
+                              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Title
+                                  as="h3"
+                                  className="text-lg font-medium leading-6 text-neutral-900 flex flex-row justify-between"
+                                >
+                                  Invoice
+                                </Dialog.Title>
+                                <div className="mt-2 text-neutral-900">
+                                  <div className="text-neutral-900 py-3">
+                                    {isTransactionLoading ? (
+                                      "Loading"
+                                    ) : (
+                                      <>
+                                        <h3>
+                                          Transaction{" "}
+                                          {isSuccess
+                                            ? "Successfully!"
+                                            : "Failed!"}
+                                        </h3>
+                                        <div className="mt-4">
+                                          <button
+                                            type="button"
+                                            className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300 bg-green-500/70 hover:bg-green-500"
+                                            onClick={() => {
+                                              handleInvoiceModal();
+                                            }}
+
+                                            //
+                                          >
+                                            Close
+                                          </button>
+                                        </div>
+                                      </>
+                                    )}
+                                  </div>
                                 </div>
                               </Dialog.Panel>
                             </Transition.Child>

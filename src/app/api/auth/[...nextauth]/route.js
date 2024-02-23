@@ -31,7 +31,7 @@ export const authOptions = {
         const passwordsMatch = await bcrypt.compare(credentials.password, user.hashedPassword)
 
         if(!passwordsMatch) {
-          return null;
+          throw new Error("Incorrect email or password")
         }
         
         return user;
