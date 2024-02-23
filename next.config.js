@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-      prerenderExclude: [
-        /^\/api\/.*/,
-      ],
-    },
-  };
-  
-  module.exports = nextConfig;
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "/src/app/api/:path*",
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
