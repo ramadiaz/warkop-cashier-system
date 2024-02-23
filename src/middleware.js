@@ -5,6 +5,5 @@ export const config = {
     "/storage",
     "/transaction",
     "/transactions-history",
-    "/settings",
   ],
 };
