@@ -38,6 +38,29 @@ export const authOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({token, user, session}) {
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+          address: user.address,
+        }
+      }
+      return token
+    },
+    async session({ session, token, user}) {
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          address: token.address
+        }
+      }
+    },
+  },
   pages: {
     signIn: '/login',
   },

@@ -13,9 +13,11 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react"
 
 const Navbar = () => {
   const session = useSession();
+  console.log(session)
 
   const pathName = usePathname();
   return (
@@ -122,8 +124,8 @@ const Navbar = () => {
       </Link>
       {
         (session.status === "authenticated" ? (
-          <Link
-          href={"/api/auth/signout"}
+          <button
+          onClick={() => signOut({ callbackUrl: 'http://localhost:3000/login' })}
             className={
               pathName.endsWith("/login")
                 ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
@@ -139,7 +141,7 @@ const Navbar = () => {
                   : "group-hover:brightness-200 transition-all duration-300"
               }
             />
-          </Link>
+          </button>
         ) : (
           <Link
             href={"/login"}
