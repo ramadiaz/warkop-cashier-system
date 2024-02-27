@@ -59,9 +59,9 @@ const Page = () => {
         <Loading />
       ) : (
         <div className="flex flex-col overflow-scroll h-[880px] w-max">
-          <table>
+          <table className="text-sm">
             <thead>
-              <tr className="divide-x divide-neutral-600/50 border-b border-neutral-600/50 sticky top-0 bg-neutral-900">
+              <tr className="divide-x divide-neutral-600/50 border-b border-neutral-600/50 sticky top-0 bg-neutral-800">
                 <td className="whitespace-nowrap font-semibold py-2 px-4">
                   id
                 </td>
