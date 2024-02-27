@@ -29,13 +29,36 @@ const Page = () => {
     fetchData();
   }, []);
 
+  const formatedDate = (dateString) => {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    
+    const date = new Date(dateString);
+    const dayOfWeek = daysOfWeek[date.getDay()];
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // getMonth() returns 0-based month, so add 1 to get 1-12 range
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    return `${dayOfWeek}, ${day}/${month}/${year} [${hours}:${minutes}:${seconds}]`;
+  };
+
   return (
     <div className="transaction-history overflow-visible">
       <Header title={"Transactions History"} />
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="flex flex-col overflow-scroll h-[880px]">
+        <div className="flex flex-col overflow-scroll h-[880px] w-max">
           <table>
             <thead>
               <tr className="divide-x divide-neutral-600/50 border-b border-neutral-600/50">
@@ -69,13 +92,11 @@ const Page = () => {
               {transactions?.map((item, index) => {
                 return (
                   <tr key={index} className="divide-x divide-neutral-600/50">
-                    <td className="whitespace-nowrap py-2 px-4">
-                      {item.id}
+                    <td className="whitespace-nowrap py-2 px-4 w-16">{item.id}</td>
+                    <td className="whitespace-nowrap px-4 py-2 w-24 text-right">
+                      {formatedDate(item.createdAt)}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 ">
-                      {item.createdAt}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 ">
+                    <td className="whitespace-nowrap px-4 py-2 w-96">
                       <ul>
                         {item.menus.map((menu, index) => {
                           return (
@@ -86,7 +107,7 @@ const Page = () => {
                         })}
                       </ul>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 ">
+                    <td className="whitespace-nowrap px-4 py-2 w-20">
                       <ul>
                         {item.menus.map((menu, index) => {
                           return (
@@ -97,16 +118,16 @@ const Page = () => {
                         })}
                       </ul>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 ">
+                    <td className="whitespace-nowrap px-4 py-2 w-28">
                       Rp.{item.totalAmount.toLocaleString()}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 ">
+                    <td className="whitespace-nowrap px-4 py-2 w-28">
                       Rp.{item.cash.toLocaleString()}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 ">
+                    <td className="whitespace-nowrap px-4 py-2 w-28">
                       Rp.{item.change.toLocaleString()}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 ">
+                    <td className="whitespace-nowrap px-4 py-2 w-96">
                       {item.cashier.name}
                     </td>
                   </tr>
