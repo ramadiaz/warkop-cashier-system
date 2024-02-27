@@ -1,21 +1,22 @@
 import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-const isLoggedIn = true
+export async function middleware(request) {
+  const token = await getToken({ req: request });
 
-export function middleware(request) {
-    if(!isLoggedIn) {
-        return NextResponse.redirect(new URL("/login", request.url))
-    }
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
-    return NextResponse.next()
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: [
-        "/",
-        "/storage",
-        "/transaction",
-        "/transactions-history",
-        "/settings",
-    ],
-}
+  matcher: [
+    "/",
+    "/storage",
+    "/transaction",
+    "/transactions-history",
+    "/settings",
+  ],
+};
