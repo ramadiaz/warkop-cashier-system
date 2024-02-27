@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react"
+import { signOut } from "next-auth/react";
 
 const Navbar = () => {
   const session = useSession();
@@ -121,47 +121,45 @@ const Navbar = () => {
           }
         />
       </Link>
-      {
-        (session.status === "authenticated" ? (
-          <button
-          onClick={() => signOut({ callbackUrl: 'http://localhost:3000/login' })}
+      {session.status === "authenticated" ? (
+        <Link
+          href={"/logout"}
+          className={
+            pathName.endsWith("/logout")
+              ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
+              : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+          }
+        >
+          <SignOut
+            size={22}
+            color="#737373"
+            className={
+              pathName.endsWith("/logout")
+                ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
+                : "group-hover:brightness-200 transition-all duration-300"
+            }
+          />
+        </Link>
+      ) : (
+        <Link
+          href={"/login"}
+          className={
+            pathName.endsWith("/login")
+              ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
+              : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+          }
+        >
+          <EggCrack
+            size={22}
+            color="#737373"
             className={
               pathName.endsWith("/login")
-                ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
-                : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
+                ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
+                : "group-hover:brightness-200 transition-all duration-300"
             }
-          >
-            <SignOut
-              size={22}
-              color="#737373"
-              className={
-                pathName.endsWith("/login")
-                  ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
-                  : "group-hover:brightness-200 transition-all duration-300"
-              }
-            />
-          </button>
-        ) : (
-          <Link
-            href={"/login"}
-            className={
-              pathName.endsWith("/login")
-                ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
-                : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
-            }
-          >
-            <EggCrack
-              size={22}
-              color="#737373"
-              className={
-                pathName.endsWith("/login")
-                  ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
-                  : "group-hover:brightness-200 transition-all duration-300"
-              }
-            />
-          </Link>
-        ))
-      }
+          />
+        </Link>
+      )}
     </div>
   );
 };
