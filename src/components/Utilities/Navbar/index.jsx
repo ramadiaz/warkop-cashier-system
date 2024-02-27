@@ -17,7 +17,6 @@ import { signOut } from "next-auth/react"
 
 const Navbar = () => {
   const session = useSession();
-  console.log(session)
 
   const pathName = usePathname();
   return (

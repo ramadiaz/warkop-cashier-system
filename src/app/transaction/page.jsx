@@ -26,25 +26,17 @@ const Page = () => {
   const [paymentModal, setPaymentModal] = useState(false);
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [isPaymentAllowed, setIsPaymenAllowed] = useState(false);
-  const session = useSession();
+  const { data: session, status } = useSession();
 
+  
   const fetchData = async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/v1/getMenu");
-
+      
       if (response.ok) {
         const data = await response.json();
         setMenuItems(data);
-      }
-
-      const res = await fetch(
-        `/api/v1/getUserInfo/${session?.data?.user?.email}`
-      );
-
-      if (res.ok) {
-        const data = await res.json();
-        setCashierData(data.body);
       }
 
       setIsLoading(false);
@@ -56,13 +48,26 @@ const Page = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (session?.user?.email) {
+      (async () => {
+        const res = await fetch(`/api/v1/getUserInfo/${session.user.email}`);
+  
+        if (res.ok) {
+          const data = await res.json();
+          setCashierData(data.body);
+        }
+      })();
+    }
+  }, [status]);
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   useEffect(() => {
     setIsPaymenAllowed(tempTransactions.length > 0);
   }, [tempTransactions]);
-
+  
   const options = menuItems.body
     ?.map(
       (item) =>

@@ -45,18 +45,19 @@ export const authOptions = {
           ...token,
           id: user.id,
           address: user.address,
+          role: user.role
         }
       }
       return token
     },
     async session({ session, token, user}) {
-
       return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
-          address: token.address
+          address: token.address,
+          role: token.role
         }
       }
     },
@@ -68,7 +69,7 @@ export const authOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV !== "development",
 };
 
 const handler = NextAuth(authOptions);
