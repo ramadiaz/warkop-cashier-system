@@ -39,7 +39,7 @@ const Page = () => {
       "Friday",
       "Saturday",
     ];
-    
+
     const date = new Date(dateString);
     const dayOfWeek = daysOfWeek[date.getDay()];
     const day = date.getDate();
@@ -62,7 +62,7 @@ const Page = () => {
           <table className="text-sm">
             <thead>
               <tr className="divide-x divide-neutral-600/50 border-b border-neutral-600/50 sticky top-0 bg-neutral-800">
-                <td className="whitespace-nowrap font-semibold py-2 px-4">
+                <td className="whitespace-nowrap font-semibold py-2 px-4 text-center">
                   id
                 </td>
                 <td className="whitespace-nowrap font-semibold px-4 py-2">
@@ -75,7 +75,7 @@ const Page = () => {
                   quantity
                 </td>
                 <td className="whitespace-nowrap font-semibold px-4 py-2">
-                  totalAmount
+                  total payment
                 </td>
                 <td className="whitespace-nowrap font-semibold px-4 py-2">
                   cash
@@ -92,7 +92,9 @@ const Page = () => {
               {transactions?.map((item, index) => {
                 return (
                   <tr key={index} className="divide-x divide-neutral-600/50">
-                    <td className="whitespace-nowrap py-2 px-4 w-16">{item.id}</td>
+                    <td className="whitespace-nowrap py-2 px-4 w-16 text-center">
+                      {item.id}
+                    </td>
                     <td className="whitespace-nowrap px-4 py-2 w-24 text-right">
                       {formatedDate(item.createdAt)}
                     </td>
