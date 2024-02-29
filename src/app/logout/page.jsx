@@ -78,7 +78,7 @@ const Page = () => {
 
                                             >
                                                 {isLoading ?
-                                                    <h4>LogOut</h4>
+                                                    <h4>Logout</h4>
                                                     : (<div className="">
                                                         <ButtonSpinner />
                                                     </div>)}

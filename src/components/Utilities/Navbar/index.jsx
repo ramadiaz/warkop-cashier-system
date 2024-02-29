@@ -13,12 +13,11 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
 
 const Navbar = () => {
-  const session = useSession();
-
+  const { data: status } = useSession();
   const pathName = usePathname();
+
   return (
     <div className="w-14 flex flex-col items-center">
       <Image
@@ -121,7 +120,7 @@ const Navbar = () => {
           }
         />
       </Link>
-      {session.status === "authenticated" ? (
+      {status ? (
         <Link
           href={"/logout"}
           className={
