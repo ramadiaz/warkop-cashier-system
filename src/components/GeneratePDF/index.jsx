@@ -3,7 +3,7 @@ import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import { useRef } from "react"
 
-const GeneratePDF = () => {
+const GeneratePDF = ({children}) => {
     const pdRef = useRef()
 
     const downloadPDF = () => {
@@ -31,6 +31,7 @@ const GeneratePDF = () => {
                     <div></div>
                     <div></div>
                 </div>
+                {children}
                 <h2>hahahahahahaha</h2>
             </div>
             <button onClick={downloadPDF}>
