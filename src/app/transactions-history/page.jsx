@@ -2,7 +2,6 @@
 
 import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import Loading from "../loading";
 
 const Page = () => {
@@ -17,7 +16,6 @@ const Page = () => {
       if (response.ok) {
         const data = await response.json();
         setTransactions(data.body);
-        console.log(data.body);
       }
     } catch (err) {
       console.log(err);

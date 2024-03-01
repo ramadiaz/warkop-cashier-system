@@ -9,6 +9,7 @@ import Loading from "../loading";
 import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
 import { useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -27,6 +28,9 @@ const Page = () => {
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [isPaymentAllowed, setIsPaymenAllowed] = useState(false);
   const { data: session, status } = useSession();
+  const [lastInvoice, setLastInvoice] = useState(0)
+
+  const {push} = useRouter()
 
   
   const fetchData = async () => {
@@ -194,6 +198,21 @@ const Page = () => {
   const handleInvoiceModal = () => {
     setInvoiceModal(!invoiceModal);
   };
+
+  const getLastInvoice = async() => {
+    try{
+      const response = await fetch(`/api/v1/getLastInvoice`)
+
+      if(response.ok){
+        const data = await response.json()
+        setLastInvoice(data)
+        console.log(data)
+        push(`/invoice/${data.body[0].id}`)
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   return (
     <div className="transaction">
@@ -560,6 +579,7 @@ const Page = () => {
                                             className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300 bg-green-500/70 hover:bg-green-500"
                                             onClick={() => {
                                               handleInvoiceModal();
+                                              getLastInvoice()
                                             }}
 
                                             //
