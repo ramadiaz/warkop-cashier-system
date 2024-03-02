@@ -15,8 +15,6 @@ export async function POST(req) {
     const cashInt = parseInt(cash)
     const changeInt = parseInt(change)
 
-    console.log(menus);
-
     const transaction = await prisma.transaction.create({
       data: {
         cashier: { connect: { id: cashierId } },

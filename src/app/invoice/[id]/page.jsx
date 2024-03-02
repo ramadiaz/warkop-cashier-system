@@ -47,7 +47,6 @@ const Page = ({ params: { id } }) => {
         <Loading />
       ) : (
         <GeneratePDF>
-          {console.log(invoice)}
           <div className="bg-slate-100 text-neutral-950 w-[500px] mx-auto mt-12 text-sm uppercase font-mono">
             <div className="p-4 space-y-2">
               <div className="text-center max-w-96 mx-auto">

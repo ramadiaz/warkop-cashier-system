@@ -206,7 +206,6 @@ const Page = () => {
       if(response.ok){
         const data = await response.json()
         setLastInvoice(data)
-        console.log(data)
         push(`/invoice/${data.body[0].id}`)
       }
     }catch(err){
