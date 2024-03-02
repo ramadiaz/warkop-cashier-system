@@ -584,7 +584,7 @@ const Page = () => {
 
                                             //
                                           >
-                                            Close
+                                            Invoice
                                           </button>
                                         </div>
                                       </>

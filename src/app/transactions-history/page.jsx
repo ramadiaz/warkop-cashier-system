@@ -3,10 +3,12 @@
 import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { push } = useRouter();
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -56,7 +58,7 @@ const Page = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="flex flex-col overflow-auto h-[880px] w-max">
+        <div className="flex flex-col overflow-x-scroll  h-[880px] w-full">
           <table className="text-sm">
             <thead>
               <tr className="divide-x divide-neutral-600/50 border-b border-neutral-600/50 sticky top-0 bg-neutral-800">
@@ -83,6 +85,9 @@ const Page = () => {
                 </td>
                 <td className="whitespace-nowrap font-semibold px-4 py-2">
                   cashier
+                </td>
+                <td className="whitespace-nowrap font-semibold px-4 py-2">
+                  invoice
                 </td>
               </tr>
             </thead>
@@ -127,8 +132,19 @@ const Page = () => {
                     <td className="whitespace-nowrap px-4 py-2 w-28">
                       Rp.{item.change.toLocaleString()}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 w-96">
+                    <td className="whitespace-nowrap px-4 py-2 w-64">
                       {item.cashier.name}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2">
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 transition-all duration-300 bg-green-500/70 hover:bg-green-500"
+                        onClick={() => {
+                          push(`/invoice/${item.id}`);
+                        }}
+                      >
+                        Invoice
+                      </button>
                     </td>
                   </tr>
                 );
