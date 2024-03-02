@@ -41,7 +41,7 @@ const Page = () => {
     const date = new Date(dateString);
     const dayOfWeek = daysOfWeek[date.getDay()];
     const day = date.getDate();
-    const month = date.getMonth() + 1; // getMonth() returns 0-based month, so add 1 to get 1-12 range
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
     const hours = date.getHours();
     const minutes = date.getMinutes();
