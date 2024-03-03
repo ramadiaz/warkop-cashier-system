@@ -1,5 +1,7 @@
 import prisma from "@/app/libs/prisma";
 
+export const revalidate = 1
+
 export async function POST(request) {
   const { id, name, price, type, stock } = await request.json();
 
