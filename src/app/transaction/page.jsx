@@ -29,16 +29,15 @@ const Page = () => {
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [isPaymentAllowed, setIsPaymenAllowed] = useState(false);
   const { data: session, status } = useSession();
-  const [isRedirecting, setIsRedirecting] = useState(false)
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
-  const {push} = useRouter()
+  const { push } = useRouter();
 
-  
   const fetchData = async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/v1/getMenu");
-      
+
       if (response.ok) {
         const data = await response.json();
         setMenuItems(data);
@@ -56,7 +55,7 @@ const Page = () => {
     if (session?.user?.email) {
       (async () => {
         const res = await fetch(`/api/v1/getUserInfo/${session.user.email}`);
-  
+
         if (res.ok) {
           const data = await res.json();
           setCashierData(data.body);
@@ -66,13 +65,13 @@ const Page = () => {
   }, [status]);
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   useEffect(() => {
     setIsPaymenAllowed(tempTransactions.length > 0);
   }, [tempTransactions]);
-  
+
   const options = menuItems.body
     ?.map(
       (item) =>
@@ -200,18 +199,18 @@ const Page = () => {
     setInvoiceModal(!invoiceModal);
   };
 
-  const getLastInvoice = async() => {
-    try{
-      const response = await fetch(`/api/v1/getLastInvoice`)
+  const getLastInvoice = async () => {
+    try {
+      const response = await fetch(`/api/v1/getLastInvoice`);
 
-      if(response.ok){
-        const data = await response.json()
-        push(`/invoice/${data.body[0].id}`)
+      if (response.ok) {
+        const data = await response.json();
+        push(`/invoice/${data.body[0].id}`);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   return (
     <div className="transaction">
@@ -343,7 +342,7 @@ const Page = () => {
                         type="button"
                         onClick={handleConfirmationModal}
                         disabled={!isPaymentAllowed}
-                        className={`font-semibold uppercase px-4 py-2 h-full transition-all duration-300 ${isPaymentAllowed ? 'hover:text-emerald-500' : 'opacity-90'}`}
+                        className={`font-semibold uppercase px-4 py-2 h-full transition-all duration-300 ${isPaymentAllowed ? "hover:text-emerald-500" : "opacity-90"}`}
                       >
                         Confirm Payment
                       </button>
@@ -489,6 +488,23 @@ const Page = () => {
                                           }}
                                         ></input>
                                       </div>
+                                      <div className="flex flex-row gap-2 justify-end py-2">
+                                        <button onClick={() => {
+                                          setCash(cash + 10000)
+                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                          10k
+                                        </button>
+                                        <button onClick={() => {
+                                          setCash(cash + 50000)
+                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                          50k
+                                        </button>
+                                        <button onClick={() => {
+                                          setCash(cash + 100000)
+                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                          100k
+                                        </button>
+                                      </div>
                                       <div className="flex justify-between">
                                         <h2>Change:</h2>
                                         <h2>Rp.{cash - totalPayment}</h2>
@@ -577,15 +593,17 @@ const Page = () => {
                                             type="button"
                                             className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300 bg-green-500/70 hover:bg-green-500 w-24"
                                             onClick={() => {
-                                              setIsRedirecting(true)
-                                              getLastInvoice()
+                                              setIsRedirecting(true);
+                                              getLastInvoice();
                                             }}
 
                                             //
                                           >
                                             {isRedirecting ? (
-                                              <ButtonSpinner/>
-                                            ) : 'Invoice'}
+                                              <ButtonSpinner />
+                                            ) : (
+                                              "Invoice"
+                                            )}
                                           </button>
                                         </div>
                                       </>
