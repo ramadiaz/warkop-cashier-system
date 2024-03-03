@@ -201,7 +201,7 @@ const Page = () => {
 
   const getLastInvoice = async () => {
     try {
-      const response = await fetch(`/api/v1/getLastInvoice`);
+      const response = await fetch(`/api/v1/getLastInvoice`, { next: { revalidate: 1 } });
 
       if (response.ok) {
         const data = await response.json();
