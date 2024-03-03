@@ -343,7 +343,7 @@ const Page = () => {
                         type="button"
                         onClick={handleConfirmationModal}
                         disabled={!isPaymentAllowed}
-                        className={`font-semibold uppercase px-4 py-2 h-full ${isPaymentAllowed ? 'hover:text-emerald-500 transition-all duration-300' : 'opacity-90'}`}
+                        className={`font-semibold uppercase px-4 py-2 h-full transition-all duration-300 ${isPaymentAllowed ? 'hover:text-emerald-500' : 'opacity-90'}`}
                       >
                         Confirm Payment
                       </button>
