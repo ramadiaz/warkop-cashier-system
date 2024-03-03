@@ -333,17 +333,17 @@ const Page = () => {
                   </table>
                 </div>
                 <div className="total-panel fixed bottom-0 h-20 border-t border-neutral-600/80 bg-neutral-900 w-full pr-72">
-                  <div className="w-full flex flex-col items-end">
-                    <h3 className="w-full bg-gradient-to-r from-neutral-900 from-10% bg-emerald-700 text-right mr-2 font-extrabold text-white">
+                  <div className="w-full flex flex-col items-end h-full">
+                    <h3 className="w-full bg-gradient-to-r from-neutral-900 from-10% bg-emerald-700 text-right pr-6 font-extrabold text-white">
                       Total: Rp. {totalPayment.toLocaleString()},-
                     </h3>
 
-                    <div className="mr-2">
+                    <div className="mr-4 h-full">
                       <button
                         type="button"
                         onClick={handleConfirmationModal}
                         disabled={!isPaymentAllowed}
-                        className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
+                        className={`font-semibold uppercase px-4 py-2 h-full ${isPaymentAllowed ? 'hover:text-emerald-500 transition-all duration-300' : 'opacity-90'}`}
                       >
                         Confirm Payment
                       </button>
