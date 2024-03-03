@@ -201,7 +201,9 @@ const Page = () => {
 
   const getLastInvoice = async () => {
     try {
-      const response = await fetch(`/api/v1/getLastInvoice`, { next: { revalidate: 1 } });
+      const response = await fetch(`/api/v1/getLastInvoice`, {
+        next: { revalidate: 1 },
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -489,19 +491,28 @@ const Page = () => {
                                         ></input>
                                       </div>
                                       <div className="flex flex-row gap-2 justify-end py-2">
-                                        <button onClick={() => {
-                                          setCash(cash + 10000)
-                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                        <button
+                                          onClick={() => {
+                                            setCash(cash + 10000);
+                                          }}
+                                          className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300"
+                                        >
                                           10k
                                         </button>
-                                        <button onClick={() => {
-                                          setCash(cash + 50000)
-                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                        <button
+                                          onClick={() => {
+                                            setCash(cash + 50000);
+                                          }}
+                                          className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300"
+                                        >
                                           50k
                                         </button>
-                                        <button onClick={() => {
-                                          setCash(cash + 100000)
-                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                        <button
+                                          onClick={() => {
+                                            setCash(cash + 100000);
+                                          }}
+                                          className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300"
+                                        >
                                           100k
                                         </button>
                                       </div>
@@ -594,7 +605,13 @@ const Page = () => {
                                             className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300 bg-green-500/70 hover:bg-green-500 w-24"
                                             onClick={() => {
                                               setIsRedirecting(true);
-                                              getLastInvoice();
+                                              getLastInvoice().then(
+                                                (response) => {
+                                                  if (response?.ok) {
+                                                    console.log("OK")
+                                                  }
+                                                }
+                                              );
                                             }}
 
                                             //
