@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -11,6 +11,13 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+
+  const { status } = useSession();
+
+  if (status === "authenticated") {
+    router.push("/");
+    return null;
+  }
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -60,7 +67,6 @@ const LoginPage = () => {
         </form>
         {/* End of Login Form  */}
         <div className="w-full text-end">
-
           <Link
             href="/"
             className="text-xs font-semibold no-underline w-max
@@ -71,9 +77,6 @@ const LoginPage = () => {
         </div>
 
         <span className="border-t-2 w-full text-center"></span>
-
-
-
 
         {/* Begin of Register */}
         <div className="flex flex-col item-start gap-y-3 ">
