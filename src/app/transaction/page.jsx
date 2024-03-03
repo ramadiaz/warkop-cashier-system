@@ -10,6 +10,7 @@ import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
 import { useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
+import ButtonSpinner from "@/components/Utilities/ButtonSpinner";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -28,7 +29,7 @@ const Page = () => {
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [isPaymentAllowed, setIsPaymenAllowed] = useState(false);
   const { data: session, status } = useSession();
-  const [lastInvoice, setLastInvoice] = useState(0)
+  const [isRedirecting, setIsRedirecting] = useState(false)
 
   const {push} = useRouter()
 
@@ -205,7 +206,6 @@ const Page = () => {
 
       if(response.ok){
         const data = await response.json()
-        setLastInvoice(data)
         push(`/invoice/${data.body[0].id}`)
       }
     }catch(err){
@@ -575,15 +575,17 @@ const Page = () => {
                                         <div className="mt-4">
                                           <button
                                             type="button"
-                                            className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300 bg-green-500/70 hover:bg-green-500"
+                                            className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300 bg-green-500/70 hover:bg-green-500 w-24"
                                             onClick={() => {
-                                              handleInvoiceModal();
+                                              setIsRedirecting(true)
                                               getLastInvoice()
                                             }}
 
                                             //
                                           >
-                                            Invoice
+                                            {isRedirecting ? (
+                                              <ButtonSpinner/>
+                                            ) : 'Invoice'}
                                           </button>
                                         </div>
                                       </>
