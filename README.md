@@ -76,6 +76,7 @@ npm run dev
 
 ### Project Structure
 
+```
 📦src
  ┣ 📂app
  ┃ ┣ 📂api
@@ -152,6 +153,7 @@ npm run dev
  ┃ ┃ ┗ 📂SmallLoading
  ┃ ┃ ┃ ┗ 📜index.jsx
  ┗ 📜middleware.js
+ ```
 
 
 
