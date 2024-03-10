@@ -22,7 +22,7 @@ The dashboard displays all transactions made by a user
 #### Storage Page
 This page allows users to view and manage products in storage. Users have options to add new product or edit.
 
-![storage](/public/readme-src/storage.png)
+![storage](/public/readme-src/storage_.png)
 
 #### Transaction Page
 Users can make transaction from this page. They need to select a product and the quantities then click on "ADD NEW ITEM" button. The product will be displayed beside the "ADD ITEM" section. The total price will be displayed at the right bottom of page.
@@ -45,7 +45,7 @@ After  making payment, an invoice will be generated showing details of transacti
 #### Transactions History Page
 This page shows  history of all transactions made by a specific user
 
-![history](/public/readme-src/transactions-history.png)
+![history](/public/readme-src/transactions-history_.png)
 
 <!-- #### Setting Page
 blablabla
