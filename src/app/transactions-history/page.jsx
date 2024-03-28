@@ -13,7 +13,9 @@ const Page = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/v1/getTransactions");
+      const response = await fetch("/api/v1/getTransactions", {
+        cache: "no-store"
+      });
 
       if (response.ok) {
         const data = await response.json();

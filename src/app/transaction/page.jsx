@@ -36,7 +36,9 @@ const Page = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/v1/getMenu");
+      const response = await fetch("/api/v1/getMenu", {
+        cache: "no-store"
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -54,7 +56,9 @@ const Page = () => {
   useEffect(() => {
     if (session?.user?.email) {
       (async () => {
-        const res = await fetch(`/api/v1/getUserInfo/${session.user.email}`);
+        const res = await fetch(`/api/v1/getUserInfo/${session.user.email}`, {
+          cache: "no-store"
+        });
 
         if (res.ok) {
           const data = await res.json();
@@ -154,6 +158,7 @@ const Page = () => {
       const response = await fetch("/api/v1/pushTransaction", {
         method: "POST",
         body: JSON.stringify(transactionData),
+        cache: "no-store"
       });
 
       if (response.ok) {
@@ -201,7 +206,9 @@ const Page = () => {
 
   const getLastInvoice = async () => {
     try {
-      const response = await fetch(`/api/v1/getLastInvoice`, { next: { revalidate: 1 } });
+      const response = await fetch(`/api/v1/getLastInvoice`, { 
+        cache: "no-store"
+       });
 
       if (response.ok) {
         const data = await response.json();

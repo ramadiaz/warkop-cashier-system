@@ -22,7 +22,9 @@ const Page = () => {
 
   const fetchData = async () => {
     setIsLoading(true);
-    const response = await fetch("/api/v1/getMenu");
+    const response = await fetch("/api/v1/getMenu", {
+      cache: "no-store"
+    });
 
     if (response.ok) {
       const data = await response.json();
@@ -60,6 +62,7 @@ const Page = () => {
       const response = await fetch("/api/v1/pushMenu", {
         method: "POST",
         body: JSON.stringify(data),
+        cache: "no-store"
       });
 
       if (response.ok) {
@@ -79,6 +82,7 @@ const Page = () => {
     const response = await fetch("/api/v1/deleteMenu", {
       method: "DELETE",
       body: id,
+      cache: "no-store"
     });
 
     if (response.ok) {
