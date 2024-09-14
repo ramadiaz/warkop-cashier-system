@@ -3,28 +3,37 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { signIn, useSession } from "next-auth/react";
+import fetchWithAuth from "@/utilities/fetchWithAuth";
+
+const BASE_API = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 const LoginPage = () => {
   const router = useRouter();
   const [data, setData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
-  const { status } = useSession();
-
-  if (status === "authenticated") {
-    router.push("/");
-    return null;
-  }
-
-  const loginUser = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    signIn("credentials", {
-      ...data,
-      callbackUrl: '/',
-    });
+    try {
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("password", data.password);
+
+      const res = await fetchWithAuth(BASE_API + "/user/login", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.ok) {
+        alert("success login");
+      } else {
+        console.log({ res });
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -32,20 +41,15 @@ const LoginPage = () => {
       className="h-screen flex justify-center items-center gap-x-7 mx-6"
       id="loginPage"
     >
-      {/* Begin of Login */}
       <div className="flex flex-col gap-y-7 w-[300px]">
-        {/* Begin of Heading */}
         <h2 className="text-2xl font-semibold">Login</h2>
-        {/* End of Heading */}
-
-        {/* Begin of Login Form */}
-        <form onSubmit={loginUser} className="flex flex-col gap-y-3">
+        <form onSubmit={handleLogin} className="flex flex-col gap-y-3">
           <input
             type="text"
-            placeholder="Email"
-            value={data.email}
+            placeholder="Username"
+            value={data.username}
             onChange={(e) => {
-              setData({ ...data, email: e.target.value });
+              setData({ ...data, username: e.target.value });
             }}
             className="text-sm p-2 rounded-2xl outline-none tracking-widest"
           />
@@ -60,12 +64,12 @@ const LoginPage = () => {
           />
           <button
             type="submit"
+            disabled={data.username === "" || data.password === ""}
             className="bg-neutral-700/40 tracking-wider p-2 rounded-2xl hover:bg-neutral-700 transition"
           >
             Login
           </button>
         </form>
-        {/* End of Login Form  */}
         <div className="w-full text-end">
           <Link
             href="/"
@@ -77,8 +81,6 @@ const LoginPage = () => {
         </div>
 
         <span className="border-t-2 w-full text-center"></span>
-
-        {/* Begin of Register */}
         <div className="flex flex-col item-start gap-y-3 ">
           <p className="text-sm text-center">
             If you don't have an account, please register.
@@ -93,15 +95,10 @@ const LoginPage = () => {
             Register
           </button>
         </div>
-        {/* End of Register */}
       </div>
-      {/* End of Login */}
-
-      {/* Begin of Image */}
       <div className="relative w-[600px] grid place-items-center">
         <img src="/loginsrc/sofa.gif" className="absolute rounded-2xl" />
       </div>
-      {/* End of Image */}
     </div>
   );
 };
