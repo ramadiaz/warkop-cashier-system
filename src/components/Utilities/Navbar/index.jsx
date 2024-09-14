@@ -28,9 +28,9 @@ const Navbar = () => {
         alt="logo"
       />
       <Link
-        href={"/"}
+        href={"/s/"}
         className={
-          pathName.endsWith("/")
+          pathName.endsWith("/s/")
             ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
             : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
         }
@@ -39,7 +39,7 @@ const Navbar = () => {
           size={22}
           color="#737373"
           className={
-            pathName.endsWith("/")
+            pathName.endsWith("/s/")
               ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
               : "group-hover:brightness-200 transition-all duration-300"
           }
@@ -48,9 +48,9 @@ const Navbar = () => {
       <div className="w-8 border border-neutral-600/70 my-2"></div>
 
       <Link
-        href={"/storage"}
+        href={"/s/storage"}
         className={
-          pathName.endsWith("/storage")
+          pathName.endsWith("/s/storage")
             ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
             : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
         }
@@ -59,16 +59,16 @@ const Navbar = () => {
           size={22}
           color="#737373"
           className={
-            pathName.endsWith("/storage")
+            pathName.endsWith("/s/storage")
               ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
               : "group-hover:brightness-200 transition-all duration-300"
           }
         />
       </Link>
       <Link
-        href={"/transaction"}
+        href={"/s/transaction"}
         className={
-          pathName.endsWith("/transaction")
+          pathName.endsWith("/s/transaction")
             ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
             : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
         }
@@ -77,16 +77,16 @@ const Navbar = () => {
           size={22}
           color="#737373"
           className={
-            pathName.endsWith("/transaction")
+            pathName.endsWith("/s/transaction")
               ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
               : "group-hover:brightness-200 transition-all duration-300"
           }
         />
       </Link>
       <Link
-        href={"/transactions-history"}
+        href={"/s/transactions-history"}
         className={
-          pathName.endsWith("/transactions-history")
+          pathName.endsWith("/s/transactions-history")
             ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
             : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
         }
@@ -95,7 +95,7 @@ const Navbar = () => {
           size={22}
           color="#737373"
           className={
-            pathName.endsWith("/transactions-history")
+            pathName.endsWith("/s/transactions-history")
               ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
               : "group-hover:brightness-200 transition-all duration-300"
           }
@@ -103,9 +103,9 @@ const Navbar = () => {
       </Link>
       <div className="w-8 border border-neutral-600/70 my-2"></div>
       <Link
-        href={"/settings"}
+        href={"/s/settings"}
         className={
-          pathName.endsWith("/settings")
+          pathName.endsWith("/s/settings")
             ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
             : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
         }
@@ -114,7 +114,7 @@ const Navbar = () => {
           size={22}
           color="#737373"
           className={
-            pathName.endsWith("/settings")
+            pathName.endsWith("/s/settings")
               ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
               : "group-hover:brightness-200 transition-all duration-300"
           }
@@ -122,9 +122,9 @@ const Navbar = () => {
       </Link>
       {status ? (
         <Link
-          href={"/logout"}
+          href={"/s/logout"}
           className={
-            pathName.endsWith("/logout")
+            pathName.endsWith("/s/logout")
               ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
               : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
           }
@@ -133,7 +133,7 @@ const Navbar = () => {
             size={22}
             color="#737373"
             className={
-              pathName.endsWith("/logout")
+              pathName.endsWith("/s/logout")
                 ? "brightness-150 group-hover:brightness-200 transition-all duration-300"
                 : "group-hover:brightness-200 transition-all duration-300"
             }

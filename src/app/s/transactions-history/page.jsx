@@ -2,8 +2,8 @@
 
 import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
-import Loading from "../loading";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
 
 const Page = () => {
   const [transactions, setTransactions] = useState([]);

@@ -5,12 +5,12 @@ import "reactjs-popup/dist/index.css";
 import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
 import ReactSelect from "react-select";
-import Loading from "../loading";
 import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
 import { useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import ButtonSpinner from "@/components/Utilities/ButtonSpinner";
+import Loading from "@/app/loading";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);

@@ -22,25 +22,25 @@ const Page = () => {
         <div className="ButtonTransaction justify-items-center">
           <div className="w-[900px] grid grid-cols-2 gap-6 justify-items-center mx-auto">
             <ButtonHomepage
-              input={"/storage"}
+              input={"/s/storage"}
               icon={"/icon/clipboard-text.svg"}
               title={"Storage"}
               desc={"Monitoring current menu inventory"}
             />
             <ButtonHomepage
-              input={"/transaction"}
+              input={"/s/transaction"}
               icon={"/icon/shopping-cart-simple.svg"}
               title={"Transaction"}
               desc={"Transactions with customers"}
             />
             <ButtonHomepage
-              input={"/transactions-history"}
+              input={"/s/transactions-history"}
               icon={"/icon/history.svg"}
               title={"Transaction History"}
               desc={"Monitoring transactions history and print invoices"}
             />
             <ButtonHomepage
-              input={"/settings"}
+              input={"/s/settings"}
               icon={"/icon/settings.svg"}
               title={"Settings"}
               desc={"View cashier profile and setting account"}
