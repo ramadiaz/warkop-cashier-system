@@ -28,9 +28,9 @@ const Navbar = () => {
         alt="logo"
       />
       <Link
-        href={"/s/"}
+        href={"/s"}
         className={
-          pathName.endsWith("/s/")
+          pathName.endsWith("/s")
             ? "p-3 m-2 bg-neutral-700 transition-all duration-300 rounded-lg group"
             : "p-3 m-2 hover:bg-neutral-700 transition-all duration-300 rounded-lg group"
         }

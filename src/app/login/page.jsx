@@ -4,8 +4,9 @@ import { toast } from "sonner";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -14,6 +15,15 @@ const LoginPage = () => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+
+    if (token) {
+      router.push("/s");
+      return;
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,10 +36,14 @@ const LoginPage = () => {
       });
 
       if (res.ok) {
+        Cookies.remove("token");
+        Cookies.set("token", data.token, { expires: 7 });
+
         toast.success("Successfully Login", {
           description: "Redirecting...",
         });
-        router.push("/");
+
+        router.push("/s");
       } else {
         const data = await res.json();
         toast.error("Login failed", {
