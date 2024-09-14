@@ -36,8 +36,9 @@ const LoginPage = () => {
       });
 
       if (res.ok) {
+        const data = await res.json();
         Cookies.remove("token");
-        Cookies.set("token", data.token, { expires: 7 });
+        Cookies.set("token", data.body, { expires: 7 });
 
         toast.success("Successfully Login", {
           description: "Redirecting...",

@@ -9,13 +9,13 @@ import {
   ShoppingCartSimple,
   SignOut,
 } from "@phosphor-icons/react/dist/ssr";
-import { useSession } from "next-auth/react";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const { data: status } = useSession();
+  const token = Cookies.get("token");
   const pathName = usePathname();
 
   return (
@@ -120,7 +120,7 @@ const Navbar = () => {
           }
         />
       </Link>
-      {status ? (
+      {token ? (
         <Link
           href={"/s/logout"}
           className={
