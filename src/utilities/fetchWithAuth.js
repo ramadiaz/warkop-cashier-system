@@ -1,10 +1,10 @@
-import { parseCookies } from "nookies";
+import { cookies } from "next/headers";
 
-const X_AUTH = process.env.NEXT_PUBLIC_X_AUTHENTICATION;
+const X_AUTH = process.env.X_AUTHENTICATION;
 
 const fetchWithAuth = async (url, options = {}) => {
-  const cookies = parseCookies();
-  const token = cookies.token;
+  const cookiesStore = cookies();
+  const token = cookiesStore.get("token")?.value;
 
   console.log({ token });
 

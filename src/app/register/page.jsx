@@ -2,12 +2,9 @@
 
 import { toast } from "sonner";
 
-import fetchWithAuth from "@/utilities/fetchWithAuth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-
-const BASE_API = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 const Page = () => {
   const router = useRouter();
@@ -26,7 +23,7 @@ const Page = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetchWithAuth(BASE_API + "/user/register", {
+      const res = await fetch("/api/register", {
         method: "POST",
         body: JSON.stringify(data),
       });

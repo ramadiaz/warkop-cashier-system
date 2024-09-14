@@ -5,10 +5,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import fetchWithAuth from "@/utilities/fetchWithAuth";
 import { Loader2 } from "lucide-react";
-
-const BASE_API = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 const LoginPage = () => {
   const router = useRouter();
@@ -21,23 +18,20 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append("username", data.username);
-      formData.append("password", data.password);
 
-      const res = await fetchWithAuth(BASE_API + "/user/login", {
+    try {
+      const res = await fetch("/api/login", {
         method: "POST",
-        body: formData,
+        body: JSON.stringify(data),
       });
 
       if (res.ok) {
         toast.success("Successfully Login", {
           description: "Redirecting...",
         });
+        router.push("/");
       } else {
         const data = await res.json();
-        console.log({ res });
         toast.error("Login failed", {
           description: data.error,
         });
