@@ -26,7 +26,7 @@ export async function POST(req) {
       });
     }
   } catch (err) {
-    return new Response(JSON.stringify({ error: "Something went wrong" }), {
+    return new Response(JSON.stringify({ error: err }), {
       status: 500,
     });
   }
