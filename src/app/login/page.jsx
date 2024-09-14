@@ -1,9 +1,12 @@
 "use client";
 
+import { toast } from "sonner";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import fetchWithAuth from "@/utilities/fetchWithAuth";
+import { Loader2 } from "lucide-react";
 
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -13,9 +16,11 @@ const LoginPage = () => {
     username: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const formData = new FormData();
       formData.append("username", data.username);
@@ -27,12 +32,20 @@ const LoginPage = () => {
       });
 
       if (res.ok) {
-        alert("success login");
+        toast.success("Successfully Login", {
+          description: "Redirecting...",
+        });
       } else {
+        const data = await res.json();
         console.log({ res });
+        toast.error("Login failed", {
+          description: data.error,
+        });
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -64,9 +77,12 @@ const LoginPage = () => {
           />
           <button
             type="submit"
-            disabled={data.username === "" || data.password === ""}
-            className="bg-neutral-700/40 tracking-wider p-2 rounded-2xl hover:bg-neutral-700 transition"
+            disabled={data.username == "" || data.password == "" || isLoading}
+            className={`bg-neutral-700/40 tracking-wider p-2 rounded-2xl transition flex flex-row items-center justify-center ${data.username == "" || data.password == "" || isLoading ? "opacity-80" : "hover:bg-neutral-700 "}`}
           >
+            <Loader2
+              className={`mr-2 h-4 w-4 animate-spin ${isLoading ? "block" : "hidden"}`}
+            />
             Login
           </button>
         </form>

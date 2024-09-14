@@ -4,6 +4,7 @@ import Navbar from "@/components/Utilities/Navbar";
 import Provider from "../../context/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title: "Warkop Cashier",
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
               {children}
             </div>
           </div>
+          <Toaster richColors position="bottom-right" expand={true} />
         </body>
       </Provider>
     </html>
