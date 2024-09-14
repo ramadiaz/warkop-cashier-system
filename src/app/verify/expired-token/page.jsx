@@ -4,18 +4,16 @@ const Page = () => {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center gap-3">
       <div className="text-5xl font-semibold">
-        Invalid <span className="text-rose-400">Token!</span>
+        Expired <span className="text-rose-400">Token!</span>
       </div>
       <div>
-        Your token may be invalid or you might already have a new one. You can
-        generate a new token {" "}
+        Your token has expired. You can request a new one{" "}
         <Link
           href={`/verify/resend`}
           className="underline hover:text-emerald-400"
         >
           here
-        </Link>
-        .
+        </Link>.
       </div>
     </div>
   );
