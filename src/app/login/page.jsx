@@ -72,7 +72,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={data.username == "" || data.password == "" || isLoading}
-            className={`bg-neutral-700/40 tracking-wider p-2 rounded-2xl transition flex flex-row items-center justify-center ${data.username == "" || data.password == "" || isLoading ? "opacity-80" : "hover:bg-neutral-700 "}`}
+            className={`bg-neutral-700/40 tracking-wider p-2 rounded-2xl transition flex flex-row items-center justify-center ${data.username == "" || data.password == "" || isLoading ? "opacity-50" : "hover:bg-neutral-700 "}`}
           >
             <Loader2
               className={`mr-2 h-4 w-4 animate-spin ${isLoading ? "block" : "hidden"}`}
