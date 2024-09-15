@@ -13,7 +13,7 @@ const Header = ({ title }) => {
             {user_data.username || "unauthorized"}
           </h3>
           <h4 className="px-4 text-xs ">
-            Login as {user_data.role || "unknown"}
+            Login as {user_data.role || "Cashier"}
           </h4>
         </div>
         <Image
