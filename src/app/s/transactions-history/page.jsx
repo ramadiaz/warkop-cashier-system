@@ -13,8 +13,8 @@ const Page = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/v1/getTransactions", {
-        cache: "no-store"
+      const response = await fetch("/api/transaction/history", {
+        cache: "no-store",
       });
 
       if (response.ok) {
@@ -101,7 +101,7 @@ const Page = () => {
                       {item.id}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 w-24 text-right">
-                      {formatedDate(item.createdAt)}
+                      {formatedDate(item.created_at)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 w-96">
                       <ul>
@@ -126,7 +126,7 @@ const Page = () => {
                       </ul>
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 w-28">
-                      Rp.{item.totalAmount.toLocaleString()}
+                      Rp.{item.total.toLocaleString()}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 w-28">
                       Rp.{item.cash.toLocaleString()}
@@ -135,14 +135,14 @@ const Page = () => {
                       Rp.{item.change.toLocaleString()}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 w-64">
-                      {item.cashier.name}
+                      {item.cashier}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2">
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 transition-all duration-300 bg-green-500/70 hover:bg-green-500"
                         onClick={() => {
-                          push(`/invoice/${item.id}`);
+                          push(`/s/invoice/${item.id}`);
                         }}
                       >
                         Invoice
