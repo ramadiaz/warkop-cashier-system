@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
               {children}
             </div>
           </div>
-          <Toaster richColors position="bottom-right" expand={true} />
+          <Toaster richColors closeButton offset="100px" position="bottom-right" expand={true} />
         </body>
       </Provider>
     </html>

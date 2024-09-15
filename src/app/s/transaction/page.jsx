@@ -248,7 +248,8 @@ const Page = () => {
                 </div>
                 <button
                   type="submit"
-                  className="rounded-md py-1 text-white text-xs font-bold uppercase w-full bg-emerald-500/70 hover:bg-emerald-500 border border-lime-300 focus:border-neutral-600 transition-all duration-300"
+                  disabled={!selectedItem || !selectedQuantity}
+                  className={`${!selectedItem || !selectedQuantity ? "opacity-50 border-emerald-500/70" : "hover:bg-emerald-500"} rounded-md py-1 text-white text-xs font-bold uppercase w-full bg-emerald-500/70 border border-lime-300 focus:border-neutral-600 transition-all duration-300`}
                 >
                   Add new item
                 </button>

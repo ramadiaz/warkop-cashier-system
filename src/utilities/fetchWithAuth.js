@@ -6,8 +6,6 @@ const fetchWithAuth = async (url, options = {}) => {
   const cookiesStore = cookies();
   const token = cookiesStore.get("token")?.value;
 
-  console.log({ token });
-
   if (token) {
     options.headers = {
       ...options.headers,

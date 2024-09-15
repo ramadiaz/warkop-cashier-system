@@ -7,6 +7,7 @@ import {
   ArrowsClockwise,
   MagnifyingGlass,
 } from "@phosphor-icons/react/dist/ssr";
+import { toast } from "sonner";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -65,15 +66,21 @@ const Page = () => {
         cache: "no-store",
       });
 
+      const res_data = await response.json();
+
       if (response.ok) {
         fetchData();
-        alert("Add new item success");
         setName("");
         setPrice("");
-        setType();
-        setStock();
+        setType("");
+        setStock(0);
+        toast.success("Registered!", {
+          description: "Item registered successfully",
+        });
       } else {
-        alert("Add new item failed");
+        toast.error("Error", {
+          description: res_data.error,
+        });
       }
     }
   };
@@ -144,7 +151,8 @@ const Page = () => {
               ></input>
               <button
                 type="submit"
-                className="rounded-md py-1 text-white text-xs font-bold uppercase w-full bg-emerald-500/70 hover:bg-emerald-500 border border-lime-300 focus:border-neutral-600 transition-all duration-300"
+                disabled={!name || !price || !type || !stock}
+                className={`${!name || !price || !type || !stock ? "opacity-50 border-emerald-500/70" : "hover:bg-emerald-500"} rounded-md py-1 text-white text-xs font-bold uppercase w-full bg-emerald-500/70 border border-lime-300 focus:border-neutral-600 transition-all duration-300`}
               >
                 Add new item
               </button>
