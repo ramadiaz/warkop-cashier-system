@@ -23,7 +23,7 @@ const Page = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/user/register", {
         method: "POST",
         body: JSON.stringify(data),
       });

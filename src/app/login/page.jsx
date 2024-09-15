@@ -30,7 +30,7 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("/api/user/login", {
         method: "POST",
         body: JSON.stringify(data),
       });

@@ -12,7 +12,7 @@ const Page = () => {
   const handleSend = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/resend?un=${username}`, {
+      const res = await fetch(`/api/user/resend?un=${username}`, {
         method: "POST",
       });
 

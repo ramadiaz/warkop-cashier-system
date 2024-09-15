@@ -11,7 +11,7 @@ const Page = () => {
 
   const handleVerify = async () => {
     try {
-      const res = await fetch(`/api/verify?token=${token}`, {
+      const res = await fetch(`/api/user/verify?token=${token}`, {
         method: "POST",
       });
 
