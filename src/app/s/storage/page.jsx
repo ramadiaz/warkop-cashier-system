@@ -22,7 +22,7 @@ const Page = () => {
 
   const fetchData = async () => {
     setIsLoading(true);
-    const response = await fetch("/api/v1/getMenu", {
+    const response = await fetch("/api/menu/getall", {
       cache: "no-store",
     });
 
