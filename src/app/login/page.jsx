@@ -45,6 +45,15 @@ const LoginPage = () => {
         });
 
         router.push("/s");
+      } else if (res.status == 403) {
+        const data = await res.json();
+        toast.error("Email not verified", {
+          description: data.error,
+          action: {
+            label: "Resend",
+            onClick: () => router.push("/verify/resend"),
+          },
+        });
       } else {
         const data = await res.json();
         toast.error("Login failed", {

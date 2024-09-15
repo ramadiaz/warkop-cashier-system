@@ -36,8 +36,13 @@ const Page = () => {
   };
 
   return (
-    <div className="w-full dark h-screen flex flex-col justify-center items-center gap-3">
-      <div className="flex flex-row gap-2">
+    <div className="w-full dark h-screen flex flex-col justify-center items-center gap-2">
+      <h1 className="text-5xl font-bold">Resend Verification Email</h1>
+      <h2 className="text-lg">
+        Please type your Warkop account username below
+      </h2>
+      <div className="h-8" />
+      <div className="flex flex-row gap-2 min-w-72">
         <input
           type="text"
           placeholder="Username"
@@ -46,7 +51,7 @@ const Page = () => {
             setUsername(e.target.value);
           }}
           disabled={isLoading || isSent}
-          className="text-sm p-2 rounded-2xl outline-none tracking-widest"
+          className="text-sm p-2 rounded-2xl outline-none tracking-widest w-full"
         />
         <button
           disabled={username == "" || isLoading || isSent}

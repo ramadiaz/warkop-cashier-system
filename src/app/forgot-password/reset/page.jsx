@@ -48,14 +48,16 @@ const Page = () => {
   };
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="w-full h-screen flex flex-col gap-2 justify-center items-center">
+      <h1 className="text-5xl font-bold">Password Reset</h1>
+      <h2 className="text-lg">
+        Hi grandpa, this time don't forget to write down your password, okay?
+      </h2>
+      <div className="h-8" />
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center gap-2 min-w-72"
+        className="flex flex-col gap-2 min-w-72"
       >
-        <h1 className="text-5xl font-bold">Password Reset</h1>
-        <h2 className="text-lg"></h2>
-        <div className="h-16" />
         <input
           type="password"
           placeholder="Password"
@@ -64,7 +66,7 @@ const Page = () => {
             setPassword(e.target.value);
           }}
           disabled={isLoading}
-          className="text-sm p-2 rounded-2xl outline-none tracking-widest w-full border border-transparent"
+          className="text-sm p-2 rounded-2xl outline-none tracking-widest border border-transparent"
         />
         <input
           type="password"
@@ -74,7 +76,7 @@ const Page = () => {
             setConfirmPassword(e.target.value);
           }}
           disabled={isLoading}
-          className={`text-sm p-2 rounded-2xl outline-none tracking-widest w-full border ${password != confirmPassword && password != "" ? "border-red-500" : "border-transparent"}`}
+          className={`text-sm p-2 rounded-2xl outline-none tracking-widest border ${password != confirmPassword && password != "" ? "border-red-500" : "border-transparent"}`}
         />
         <h4
           className={

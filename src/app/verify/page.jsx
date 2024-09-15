@@ -18,7 +18,7 @@ const Page = () => {
       if (res.status == 404) {
         router.push("/verify/invalid-token");
       } else if (res.status == 410) {
-        router.push("/verify/token-expired");
+        router.push("/verify/expired-token");
       } else if (res.status == 200) {
         router.push("/verify/verified");
       }
