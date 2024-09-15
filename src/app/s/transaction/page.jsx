@@ -28,6 +28,7 @@ const Page = () => {
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [isPaymentAllowed, setIsPaymenAllowed] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [lastTransactionID, setLastTransactionID] = useState(0);
 
   const user_data = GetUserData();
 
@@ -153,6 +154,9 @@ const Page = () => {
         setTotalPayment(0);
         setTotalItem(0);
         setCash(0);
+
+        const data = await response.json();
+        setLastTransactionID(data.body.id);
       } else {
         setIsTransactionLoading(false);
         setIsSuccess(false);
@@ -187,21 +191,6 @@ const Page = () => {
   };
   const handleInvoiceModal = () => {
     setInvoiceModal(!invoiceModal);
-  };
-
-  const getLastInvoice = async () => {
-    try {
-      const response = await fetch(`/api/v1/getLastInvoice`, {
-        cache: "no-store",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        push(`/invoice/${data.body[0].id}`);
-      }
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
@@ -595,7 +584,9 @@ const Page = () => {
                                             className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300 bg-green-500/70 hover:bg-green-500 w-24"
                                             onClick={() => {
                                               setIsRedirecting(true);
-                                              getLastInvoice();
+                                              push(
+                                                `/invoice/${lastTransactionID}`
+                                              );
                                             }}
 
                                             //
