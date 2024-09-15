@@ -6,11 +6,11 @@ import Header from "@/components/Utilities/Header";
 import { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import { Minus, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
-import { useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import ButtonSpinner from "@/components/Utilities/ButtonSpinner";
 import Loading from "@/app/loading";
+import { GetUserData } from "@/utilities/GetUserData";
 
 const Page = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -23,21 +23,21 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isTransactionLoading, setIsTransactionLoading] = useState(true);
   const [isSuccess, setIsSuccess] = useState(true);
-  const [cashierData, setCashierData] = useState([]);
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [paymentModal, setPaymentModal] = useState(false);
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [isPaymentAllowed, setIsPaymenAllowed] = useState(false);
-  const { data: session, status } = useSession();
   const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const user_data = GetUserData();
 
   const { push } = useRouter();
 
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/v1/getMenu", {
-        cache: "no-store"
+      const response = await fetch("/api/menu/getall", {
+        cache: "no-store",
       });
 
       if (response.ok) {
@@ -52,21 +52,6 @@ const Page = () => {
     }
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    if (session?.user?.email) {
-      (async () => {
-        const res = await fetch(`/api/v1/getUserInfo/${session.user.email}`, {
-          cache: "no-store"
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          setCashierData(data.body);
-        }
-      })();
-    }
-  }, [status]);
 
   useEffect(() => {
     fetchData();
@@ -113,7 +98,7 @@ const Page = () => {
           setTempTransactions([
             ...tempTransactions,
             {
-              menuId: selectedItem,
+              menu_id: selectedItem,
               name: itemName,
               quantity: selectedQuantity,
               price: itemPrice,
@@ -141,24 +126,24 @@ const Page = () => {
 
   const pushTransactions = async () => {
     setIsTransactionLoading(true);
-    if (!cashierData) {
+    if (!user_data) {
       setIsSuccess(false);
       setIsTransactionLoading(false);
       return null;
     }
     const transactionData = {
-      cashierId: cashierData.id,
-      totalAmount: totalPayment,
+      cashier_id: user_data.id,
+      total: totalPayment,
       cash,
       change: cash - totalPayment,
       menus: tempTransactions,
     };
 
     try {
-      const response = await fetch("/api/v1/pushTransaction", {
+      const response = await fetch("/api/transaction/register", {
         method: "POST",
         body: JSON.stringify(transactionData),
-        cache: "no-store"
+        cache: "no-store",
       });
 
       if (response.ok) {
@@ -206,9 +191,9 @@ const Page = () => {
 
   const getLastInvoice = async () => {
     try {
-      const response = await fetch(`/api/v1/getLastInvoice`, { 
-        cache: "no-store"
-       });
+      const response = await fetch(`/api/v1/getLastInvoice`, {
+        cache: "no-store",
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -471,7 +456,7 @@ const Page = () => {
                                 >
                                   <span>Payment</span>
                                   <span className="font-normal text-sm">
-                                    Cashier: {cashierData?.name}
+                                    Cashier: {user_data?.name}
                                   </span>
                                 </Dialog.Title>
                                 <div className="mt-2 text-neutral-900">
@@ -496,19 +481,28 @@ const Page = () => {
                                         ></input>
                                       </div>
                                       <div className="flex flex-row gap-2 justify-end py-2">
-                                        <button onClick={() => {
-                                          setCash(cash + 10000)
-                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                        <button
+                                          onClick={() => {
+                                            setCash(cash + 10000);
+                                          }}
+                                          className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300"
+                                        >
                                           10k
                                         </button>
-                                        <button onClick={() => {
-                                          setCash(cash + 50000)
-                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                        <button
+                                          onClick={() => {
+                                            setCash(cash + 50000);
+                                          }}
+                                          className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300"
+                                        >
                                           50k
                                         </button>
-                                        <button onClick={() => {
-                                          setCash(cash + 100000)
-                                        }} className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300">
+                                        <button
+                                          onClick={() => {
+                                            setCash(cash + 100000);
+                                          }}
+                                          className="inline-flex justify-center rounded-md border border-transparent bg-green-500/70 hover:bg-green-500 px-4 py-2 text-sm font-medium text-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 transition-all duration-300"
+                                        >
                                           100k
                                         </button>
                                       </div>
