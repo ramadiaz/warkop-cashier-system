@@ -23,7 +23,7 @@ const Page = () => {
   const fetchData = async () => {
     setIsLoading(true);
     const response = await fetch("/api/v1/getMenu", {
-      cache: "no-store"
+      cache: "no-store",
     });
 
     if (response.ok) {
@@ -59,10 +59,10 @@ const Page = () => {
         stock: parseInt(stock, 10),
       };
 
-      const response = await fetch("/api/v1/pushMenu", {
+      const response = await fetch("/api/menu/register", {
         method: "POST",
         body: JSON.stringify(data),
-        cache: "no-store"
+        cache: "no-store",
       });
 
       if (response.ok) {
@@ -82,7 +82,7 @@ const Page = () => {
     const response = await fetch("/api/v1/deleteMenu", {
       method: "DELETE",
       body: id,
-      cache: "no-store"
+      cache: "no-store",
     });
 
     if (response.ok) {
@@ -221,7 +221,10 @@ const Page = () => {
                 <tbody className="divide-y divide-neutral-600/50">
                   {filteredMenuItems?.map((menuItem, index) => {
                     return (
-                      <tr key={index} className="divide-x divide-neutral-600/50">
+                      <tr
+                        key={index}
+                        className="divide-x divide-neutral-600/50"
+                      >
                         <th className="font-normal px-4 py-2 w-16 whitespace-nowrap">
                           {index + 1}
                         </th>
