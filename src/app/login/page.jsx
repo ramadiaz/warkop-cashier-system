@@ -97,7 +97,7 @@ const LoginPage = () => {
         </form>
         <div className="w-full text-end">
           <Link
-            href="/"
+            href="/forgot-password"
             className="text-xs font-semibold no-underline w-max
           border-b border-grey-dark hover:border-green-400 hover:text-green-400 transition-all duration-300"
           >
