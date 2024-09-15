@@ -585,7 +585,7 @@ const Page = () => {
                                             onClick={() => {
                                               setIsRedirecting(true);
                                               push(
-                                                `/invoice/${lastTransactionID}`
+                                                `/s/invoice/${lastTransactionID}`
                                               );
                                             }}
 

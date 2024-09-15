@@ -13,7 +13,7 @@ const Page = ({ params: { id } }) => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/v1/getInvoice/${invoiceId}`);
+      const response = await fetch(`/api/transaction/get?id=${invoiceId}`);
       if (response.ok) {
         const data = await response.json();
         setInvoice(data.body);
@@ -60,10 +60,10 @@ const Page = ({ params: { id } }) => {
               <div className="flex flex-row justify-between">
                 <div className="text-left">
                   <h3>INV{invoice.id}</h3>
-                  <h3>{formatedDate(invoice.createdAt)}</h3>
+                  <h3>{formatedDate(invoice.created_at)}</h3>
                 </div>
                 <div className="text-right">
-                  <h3>Cashier: {invoice.cashier?.name}</h3>
+                  <h3>Cashier: {invoice.cashier}</h3>
                 </div>
               </div>
               <div className="border-b border-neutral-950"></div>
@@ -92,7 +92,7 @@ const Page = ({ params: { id } }) => {
                         TOTAL:
                       </td>
                       <td className="text-right">
-                        {invoice.totalAmount?.toLocaleString()}
+                        {invoice.total?.toLocaleString()}
                       </td>
                     </tr>
                     <tr key={`cash`}>
@@ -116,12 +116,8 @@ const Page = ({ params: { id } }) => {
               </div>
               <div className="text-center max-w-96 mx-auto pt-4">
                 <h2>cust.care sms 085219489117 wa 081382009115</h2>
-                <h2>
-                  call 1500 280 - kontak@warkop.co.id
-                </h2>
-                <h2>
-                  nongkrong? di warkop aja!
-                </h2>
+                <h2>call 1500 280 - kontak@warkop.co.id</h2>
+                <h2>nongkrong? di warkop aja!</h2>
               </div>
             </div>
           </div>
