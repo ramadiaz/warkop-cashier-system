@@ -105,7 +105,7 @@ const Page = () => {
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 w-96">
                       <ul>
-                        {item.menus.map((menu, index) => {
+                        {item.menus?.map((menu, index) => {
                           return (
                             <li key={index} className="">
                               {menu.name}
@@ -116,7 +116,7 @@ const Page = () => {
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 w-20">
                       <ul>
-                        {item.menus.map((menu, index) => {
+                        {item.menus?.map((menu, index) => {
                           return (
                             <li key={index} className="">
                               x{menu.quantity}
