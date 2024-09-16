@@ -238,7 +238,7 @@ const Page = () => {
                     value={selectedQuantity}
                     onChange={(event) => {
                       if (event.target.value >= 0) {
-                        setSelectedQuantity(event.target.value);
+                        setSelectedQuantity(parseInt(event.target.value));
                       }
                     }}
                   ></input>
