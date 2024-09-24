@@ -465,7 +465,7 @@ const Page = () => {
                                           value={cash}
                                           onChange={(event) => {
                                             if (event.target.value >= 0) {
-                                              setCash(event.target.value);
+                                              setCash(parseInt(event.target.value));
                                             }
                                           }}
                                         ></input>
